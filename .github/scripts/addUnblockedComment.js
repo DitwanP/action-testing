@@ -44,7 +44,7 @@ module.exports = async ({ github, context }) => {
       } catch (error) {
         if (error.status === 404) {
           console.log(
-            `Label "blocked" does not exist on issue #${issueNumber}.`
+            `The label "blocked" does not exist on issue #${issueNumber}.`
           );
         } else {
           throw error;
