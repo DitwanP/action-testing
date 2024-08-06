@@ -43,14 +43,18 @@ module.exports = async ({ github, context }) => {
         });
       } catch (error) {
         if (error.status === 404) {
-          console.log(`Label "blocked does not exist on issue ${issueNumber}`);
+          console.log(
+            `Label "blocked" does not exist on issue #${issueNumber}.`
+          );
         } else {
           throw error;
         }
       }
     }
   } else {
-    console.log("No blocked issues listed.");
+    console.log(
+      `No blocked issues listed in the body of issue #${context.payload.issue.number}.`
+    );
     return;
   }
 };
