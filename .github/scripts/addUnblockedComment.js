@@ -35,6 +35,11 @@ module.exports = async ({ github, context }) => {
         ...issueProps,
         body: `Issue #${context.issue.number} has been closed, this issue can now move forward. cc ${verifiers}`,
       });
+
+      await github.rest.issues.removeLabel({
+        ...issueProps,
+        name: "blocked",
+      });
     }
   } else {
     console.log("No blocked issues listed.");
