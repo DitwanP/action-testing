@@ -20,7 +20,9 @@ module.exports = async ({ github, context }) => {
 
   // If "Blocked issues" line is matched in the body then create a comment on each issue listed
   if (blockedIssues) {
-    for (const issueNumber of blockedIssues) {
+    const issueNumbers = blockedIssues.map((number) => number.slice(1))
+    
+    for (const issueNumber of issueNumbers) {
       const issueProps = {
         issue_number: issueNumber,
         owner: context.repo.owner,
