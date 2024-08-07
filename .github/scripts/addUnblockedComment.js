@@ -13,9 +13,7 @@ module.exports = async ({ github, context }) => {
   }
 
   // Get the list of issues blocked by this issue if there are any
-  const blockedIssues = issueBody
-    .match(blockedIssuesRegex)
-    .map((number) => number.slice(1));
+  const blockedIssues = issueBody.match(blockedIssuesRegex).map((number) => number.slice(1));
 
   // Add a "@" character to notify the user
   const verifiers = ISSUE_VERIFIERS.split(",").map((v) => `@${v.trim()}`);
