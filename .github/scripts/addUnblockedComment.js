@@ -33,7 +33,7 @@ module.exports = async ({ github, context }) => {
 
       await github.rest.issues.createComment({
         ...issueProps,
-        body: `Issue #${context.issue.number} has been closed, this issue is ready for re-evaluation. \ncc ${verifiers}`,
+        body: `Issue #${context.issue.number} has been closed, this issue is ready for re-evaluation. \n\ncc ${verifiers}`,
       });
 
       try {
