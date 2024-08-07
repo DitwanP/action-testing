@@ -3,8 +3,10 @@
 // 1. Leaves a comment on all the issues listed as blocked in body,
 
 module.exports = async ({ github, context }) => {
+  const { repo, owner } = context.repo;
+  const payload = context.payload;
   const { ISSUE_VERIFIERS } = process.env;
-  const issueBody = context.payload.issue.body;
+  const issueBody = payload.issue.body;
   const blockedIssuesRegex = /(?!Blocked issues:\s)(#\d+)/gi;
 
   if (!issueBody) {
@@ -24,14 +26,14 @@ module.exports = async ({ github, context }) => {
 
     for (const issueNumber of issueNumbers) {
       const issueProps = {
+        repo,
+        owner,
         issue_number: issueNumber,
-        owner: context.repo.owner,
-        repo: context.repo.repo,
       };
 
       await github.rest.issues.createComment({
         ...issueProps,
-        body: `Issue #${context.issue.number} has been closed, this issue is ready for re-evaluation. cc ${verifiers}`,
+        body: `Issue #${context.issue.number} has been closed, this issue is ready for re-evaluation. \ncc ${verifiers}`,
       });
 
       try {
