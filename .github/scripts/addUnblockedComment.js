@@ -2,9 +2,10 @@
 // When a blocking issue is closed:
 // 1. Leaves a comment on all the issues listed as blocked in body,
 
+/** @param {import('github-script').AsyncFunctionArguments} AsyncFunctionArguments */
 module.exports = async ({ github, context }) => {
   const { repo, owner } = context.repo;
-  const payload = context.payload;
+  const payload = /** @type {import('@octokit/webhooks-types').IssuesLabeledEvent} */ (context.payload)
   const { ISSUE_VERIFIERS } = process.env;
   const issueBody = payload.issue.body;
   const blockedIssuesRegex = /(?!Blocked issues:\s)(#\d+)/gi;
@@ -28,7 +29,7 @@ module.exports = async ({ github, context }) => {
       const issueProps = {
         repo,
         owner,
-        issue_number: issueNumber,
+        issue_number: Number(issueNumber),
       };
 
       await github.rest.issues.createComment({
@@ -53,7 +54,7 @@ module.exports = async ({ github, context }) => {
     }
   } else {
     console.log(
-      `No blocked issues listed in the body of issue #${context.payload.issue.number}.`
+      `No blocked issues listed in the body of issue #${payload.issue.number}.`
     );
   }
 };
