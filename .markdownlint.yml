@@ -1,0 +1,14 @@
+line-length: false
+no-inline-html: false
+blanks-around-fences: false
+no-multiple-blanks: false
+first-line-heading: false
+no-emphasis-as-heading: false
+no-duplicate-heading:
+  siblings_only: true
+ul-style:
+  style: "dash"
+code-block-style:
+  style: "fenced"
+code-fence-style:
+  style: "backtick"
