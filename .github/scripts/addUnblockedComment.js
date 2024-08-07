@@ -18,7 +18,7 @@ module.exports = async ({ github, context }) => {
   const blockedIssues = issueBody.match(blockedIssuesRegex);
 
   // Add a "@" character to notify the user
-  const verifiers = ISSUE_VERIFIERS.split(",").map((v) => `@${v.trim()}`);
+  const verifiers = ISSUE_VERIFIERS?.split(",").map((v) => `@${v.trim()}`);
 
   // If "Blocked issues" line is matched in the body then create a comment on each issue listed
   if (blockedIssues) {
