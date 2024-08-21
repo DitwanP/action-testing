@@ -37,10 +37,18 @@ module.exports = async ({ github, context }) => {
         issue_number: Number(issueNumber),
       };
 
-      await github.rest.issues.createComment({
-        ...issueProps,
-        body: `Issue #${context.issue.number} has been closed, this issue is ready for re-evaluation. \n\ncc ${verifiers}`,
-      });
+      try {
+        await github.rest.issues.createComment({
+          ...issueProps,
+          body: `Issue #${context.issue.number} has been closed, this issue is ready for re-evaluation. \n\ncc ${verifiers}`,
+        });
+      } catch (error) {
+        if (error.status === 404) {
+          console.log(`Issue ${issueNumber} does not exist`);
+        } else {
+          throw error;
+        }
+      }
 
       try {
         await github.rest.issues.removeLabel({
