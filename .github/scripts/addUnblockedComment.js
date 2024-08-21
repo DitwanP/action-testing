@@ -28,7 +28,7 @@ module.exports = async ({ github, context }) => {
   if (blockedIssues) {
     const issueNumbers = blockedIssues[1]
       .split(",")
-      .map((num) => num.trim().slice());
+      .map((num) => num.trim().slice(1));
 
     for (const issueNumber of issueNumbers) {
       const issueProps = {
