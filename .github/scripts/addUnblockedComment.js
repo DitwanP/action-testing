@@ -5,10 +5,13 @@
 /** @param {import('github-script').AsyncFunctionArguments} AsyncFunctionArguments */
 module.exports = async ({ github, context }) => {
   const { repo, owner } = context.repo;
-  const payload = /** @type {import('@octokit/webhooks-types').IssuesLabeledEvent} */ (context.payload)
+  const payload =
+    /** @type {import('@octokit/webhooks-types').IssuesLabeledEvent} */ (
+      context.payload
+    );
   const { ISSUE_VERIFIERS } = process.env;
   const issueBody = payload.issue.body;
-  const blockedIssuesRegex = /(?!Blocked issues:\s)(#\d+)/gi;
+  const blockedIssuesRegex = /Blocked issues:\s*(#\d+(?:,\s*#\d+)*)/i;
 
   if (!issueBody) {
     console.log("No issue body was found");
@@ -23,7 +26,9 @@ module.exports = async ({ github, context }) => {
 
   // If "Blocked issues" line is matched in the body then create a comment on each issue listed
   if (blockedIssues) {
-    const issueNumbers = blockedIssues.map((number) => number.slice(1))
+    const issueNumbers = blockedIssues[1]
+      .split(",")
+      .map((num) => num.trim().slice());
 
     for (const issueNumber of issueNumbers) {
       const issueProps = {
