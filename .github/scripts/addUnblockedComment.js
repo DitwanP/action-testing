@@ -45,6 +45,7 @@ module.exports = async ({ github, context }) => {
       } catch (error) {
         if (error.status === 404) {
           console.log(`Issue ${issueNumber} does not exist`);
+          continue;
         } else {
           throw error;
         }
