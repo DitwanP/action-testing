@@ -29,6 +29,7 @@ module.exports = async ({ github, context }) => {
   const productRegexMatch = body.match(productRegex);
 
   const product = (productRegexMatch && productRegexMatch[0] ? productRegexMatch[0] : "").trim();
+  console.log("Product: ", product);
 
   if (product !== "N/A") {
     await createLabelIfMissing({
