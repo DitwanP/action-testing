@@ -28,12 +28,9 @@ module.exports = async ({ github, context }) => {
 
   const productRegexMatch = body.match(productRegex);
 
-  // If issue includes Esri team line then proceed, otherwise log message.
+  // If issue includes "Esri team" line then create label, otherwise log message.
   if (productRegexMatch) {
     const product = (productRegexMatch && productRegexMatch[0] ? productRegexMatch[0] : "").trim();
-  
-    console.log("Product RegEx match: ", productRegexMatch);
-    console.log("Product: ", product);
   
     if (product !== "N/A") {
       await createLabelIfMissing({
