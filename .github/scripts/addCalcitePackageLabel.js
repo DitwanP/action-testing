@@ -20,7 +20,7 @@ module.exports = async ({ github, context }) => {
   const packages = body.match(packageRegex) || [];
 
   // If issue includes "Calcite package" line then add package, otherwise log message.
-  if (packages){
+  if (packages.length !== 0){
     for (const package of packages) {
       await createLabelIfMissing({
         github,
