@@ -28,25 +28,30 @@ module.exports = async ({ github, context }) => {
 
   const productRegexMatch = body.match(productRegex);
 
-  const product = (productRegexMatch && productRegexMatch[0] ? productRegexMatch[0] : "").trim();
-
-  console.log("Product RegEx match: ", productRegexMatch);
-  console.log("Product: ", product);
-
-  if (product !== "N/A") {
-    await createLabelIfMissing({
-      github,
-      context,
-      label: product,
-      color: "006B75",
-      description: `Issues logged by ${product} team members.`,
-    });
-
-    await github.rest.issues.addLabels({
-      issue_number,
-      owner,
-      repo,
-      labels: [product],
-    });
+  // If issue includes Esri team line then proceed, otherwise log message.
+  if (productRegexMatch) {
+    const product = (productRegexMatch && productRegexMatch[0] ? productRegexMatch[0] : "").trim();
+  
+    console.log("Product RegEx match: ", productRegexMatch);
+    console.log("Product: ", product);
+  
+    if (product !== "N/A") {
+      await createLabelIfMissing({
+        github,
+        context,
+        label: product,
+        color: "006B75",
+        description: `Issues logged by ${product} team members.`,
+      });
+  
+      await github.rest.issues.addLabels({
+        issue_number,
+        owner,
+        repo,
+        labels: [product],
+      });
+    }
+  } else {
+    console.log(`No Esri team listed on issue #${issue_number}`);
   }
 };
