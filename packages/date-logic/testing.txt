@@ -10,3 +10,4 @@ Deprecation 2
 Beepboop 4
 Beepboop 5
 Beepboop 6
+Deprecation 3
