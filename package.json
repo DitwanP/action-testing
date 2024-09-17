@@ -3,12 +3,14 @@
   "version": "0.0.0",
   "description": "For testing GitHub actions",
   "author": "DitwanP",
+  "workspaces": ["packages/*"],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/DitwanP/action-testing.git"
   },
   "dependencies": {
     "@octokit/webhooks-types": "7.5.1",
-    "@types/github-script": "github:actions/github-script"
+    "@types/github-script": "github:actions/github-script",
+    "lerna": "^8.1.8"
   }
 }
