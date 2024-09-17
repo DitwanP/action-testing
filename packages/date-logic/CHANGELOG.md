@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.7](https://github.com/DitwanP/action-testing/compare/v1.1.6...v1.1.7) (2024-09-17)
+
+
+### 🤖
+
+* **date-logic:** add beepboop 4 & 5 ([225e83c](https://github.com/DitwanP/action-testing/commit/225e83c9e19cd57c133aa1e64530b0f13951dd79))
+
+
+### Deprecations
+
+* **date-logic:** add deprecation 2 ([2f3e8fb](https://github.com/DitwanP/action-testing/commit/2f3e8fb563915707199632814d78c58ffc55912d))
+
+
+
 ## [1.1.6](https://github.com/DitwanP/action-testing/compare/v1.1.5...v1.1.6) (2024-09-17)
 
 

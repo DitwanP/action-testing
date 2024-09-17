@@ -1,21 +1,54 @@
 {
   "$schema": "node_modules/lerna/schemas/lerna-schema.json",
-  "version": "1.1.6",
+  "version": "1.1.7",
   "changelogPreset": {
     "name": "conventionalcommits",
     "issueUrlFormat": "{{host}}/{{owner}}/{{repository}}/issues/{{id}}",
     "types": [
-      {"type": "feat", "section": "Features"},
-      {"type": "fix", "section": "Bug Fixes"},
-      {"type": "beepboop","section": "🤖"},
-      {"type": "deprecation","section": "Deprecations"},
-      {"type": "revert","section": "Reverts"},
-      {"type": "chore", "hidden": true},
-      {"type": "docs", "hidden": true},
-      {"type": "style", "hidden": true},
-      {"type": "refactor", "hidden": true},
-      {"type": "perf", "hidden": true},
-      {"type": "test", "hidden": true}
+      {
+        "type": "feat",
+        "section": "Features"
+      },
+      {
+        "type": "fix",
+        "section": "Bug Fixes"
+      },
+      {
+        "type": "beepboop",
+        "section": "🤖"
+      },
+      {
+        "type": "deprecation",
+        "section": "Deprecations"
+      },
+      {
+        "type": "revert",
+        "section": "Reverts"
+      },
+      {
+        "type": "chore",
+        "hidden": true
+      },
+      {
+        "type": "docs",
+        "hidden": true
+      },
+      {
+        "type": "style",
+        "hidden": true
+      },
+      {
+        "type": "refactor",
+        "hidden": true
+      },
+      {
+        "type": "perf",
+        "hidden": true
+      },
+      {
+        "type": "test",
+        "hidden": true
+      }
     ]
   },
   "command": {
