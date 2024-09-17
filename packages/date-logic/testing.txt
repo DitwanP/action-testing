@@ -5,3 +5,5 @@ Beepboop 1
 Feat 1
 Beepboop 2
 Feat 2
+Beepboop 3
+Deprecation 2
