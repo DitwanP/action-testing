@@ -38,6 +38,10 @@
       {
         "type": "beepboop",
         "section": "🤖"
+      },
+      {
+        "type": "deprecation",
+        "section": "Deprecations"
       }
     ]
   }
