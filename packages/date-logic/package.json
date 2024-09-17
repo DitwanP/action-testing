@@ -7,5 +7,6 @@
     "type": "git",
     "url": "git+https://github.com/DitwanP/action-testing.git"
   },
-  "author": "DitwanP"
+  "author": "DitwanP",
+  "gitHead": "90ebd94851bb0e837867ee02513c9f56ea47f64b"
 }
