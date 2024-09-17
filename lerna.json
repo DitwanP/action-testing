@@ -3,6 +3,7 @@
   "version": "1.1.4",
   "changelogPreset": {
     "name": "conventionalcommits",
+    "issueUrlFormat": "{{host}}/{{owner}}/{{repository}}/issues/{{id}}",
     "types": [
       {
         "type": "feat",
