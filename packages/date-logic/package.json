@@ -1,0 +1,11 @@
+{
+  "name": "@ditwanp/date-logic",
+  "version": "1.0.0",
+  "description": "A test package that just returns the current date",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DitwanP/action-testing.git"
+  },
+  "author": "DitwanP"
+}
