@@ -13,4 +13,4 @@ Beepboop 6
 Deprecation 3
 Testing how pr commit messages show up on the changelog.
 Resolving issue number 6
-Another commit to resolv issue number 6
+Another commit to resolve issue number 6
