@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.9](https://github.com/DitwanP/action-testing/compare/v1.1.8...v1.1.9) (2024-09-18)
+
+
+### Features
+
+* **date-logic:** testing pr messages on changelog. ([172f89d](https://github.com/DitwanP/action-testing/commit/172f89d642be06b4ae0e7ecf1506470a3fc34ce9))
+
+
+
 ## [1.1.8](https://github.com/DitwanP/action-testing/compare/v1.1.7...v1.1.8) (2024-09-17)
 
 

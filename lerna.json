@@ -1,6 +1,6 @@
 {
   "$schema": "node_modules/lerna/schemas/lerna-schema.json",
-  "version": "1.1.8",
+  "version": "1.1.9",
   "changelogPreset": {
     "name": "conventionalcommits",
     "issueUrlFormat": "{{host}}/{{owner}}/{{repository}}/issues/{{id}}",
@@ -54,7 +54,11 @@
   "command": {
     "version": {
       "conventionalCommits": true,
-      "allowBranch": ["main", "rc", "dev"],
+      "allowBranch": [
+        "main",
+        "rc",
+        "dev"
+      ],
       "exact": true
     }
   }
