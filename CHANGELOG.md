@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.10](https://github.com/DitwanP/action-testing/compare/v1.1.9...v1.1.10) (2024-09-18)
+
+
+### Bug Fixes
+
+* **date-logic:** resolving issue number 6 ([#7](https://github.com/DitwanP/action-testing/issues/7)) ([6fd5313](https://github.com/DitwanP/action-testing/commit/6fd531306d48f85f2edd4f68705e3586a8f8e906))
+
+
+
 ## [1.1.9](https://github.com/DitwanP/action-testing/compare/v1.1.8...v1.1.9) (2024-09-18)
 
 
