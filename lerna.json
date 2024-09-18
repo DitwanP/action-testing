@@ -53,7 +53,9 @@
   },
   "command": {
     "version": {
-      "conventionalCommits": true
+      "conventionalCommits": true,
+      "allowBranch": ["main", "rc", "dev"],
+      "exact": true
     }
   }
 }
