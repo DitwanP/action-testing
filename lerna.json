@@ -23,7 +23,7 @@
       },
       {
         "type": "docs",
-        "scope": "deprecate",
+        "scope": "deprecation",
         "section": "Deprecations"
       },
       {
