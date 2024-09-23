@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.18](https://github.com/DitwanP/action-testing/compare/v1.1.17...v1.1.18) (2024-09-23)
+
+
+### Deprecations
+
+* **deprecation:** This is a deprecation 12 ([c7804c5](https://github.com/DitwanP/action-testing/commit/c7804c5bd5f4f0f7da7a4870a24aa411f8e953cb))
+
+
+
 ## [1.1.17](https://github.com/DitwanP/action-testing/compare/v1.1.16...v1.1.17) (2024-09-23)
 
 
