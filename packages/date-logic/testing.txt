@@ -19,3 +19,4 @@ Beepboop 7
 Deprecation 4
 Docs 1
 Deprecation 5
+Deprecation 6
