@@ -17,3 +17,4 @@ Another commit to resolve issue number 6
 Docs Deprecation 1
 Beepboop 7
 Deprecation 4
+Docs 1
