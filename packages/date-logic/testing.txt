@@ -21,3 +21,5 @@ Docs 1
 Deprecation 5
 Deprecation 6
 Deprecation 7
+Deprecation 8
+Deprecation 9
