@@ -28,3 +28,4 @@ Deprecation 11
 Docs 2 (should not show up without scope)
 Deprecation 12 (should show up because Deprecation scope is included with docs type)
 Deprecation 13 (I don't think this will show up because will exclude deprecation scope from commit title)
+Deprecation 14 (Don't think this will work because the deprecation type is replaced with docs type.)
