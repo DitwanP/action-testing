@@ -15,3 +15,4 @@ Testing how pr commit messages show up on the changelog.
 Resolving issue number 6
 Another commit to resolve issue number 6
 Docs Deprecation 1
+Beepboop 7
