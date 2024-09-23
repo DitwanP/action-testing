@@ -26,3 +26,4 @@ Deprecation 9
 Deprecation 10
 Deprecation 11
 Docs 2 (should not show up without scope)
+Deprecation 12 (should show up because Deprecation scope is included with docs type)
