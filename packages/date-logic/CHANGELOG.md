@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.12](https://github.com/DitwanP/action-testing/compare/v1.1.11...v1.1.12) (2024-09-23)
+
+**Note:** Version bump only for package @ditwanp/date-logic
+
+
+
+
+
 ## [1.1.11](https://github.com/DitwanP/action-testing/compare/v1.1.10...v1.1.11) (2024-09-23)
 
 
