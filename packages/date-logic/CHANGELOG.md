@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.16](https://github.com/DitwanP/action-testing/compare/v1.1.15...v1.1.16) (2024-09-23)
+
+
+### Deprecations
+
+* **date-logic:** this is a deprecation 9 ([b856188](https://github.com/DitwanP/action-testing/commit/b856188165497ddcf409af1d633862a5e46968c7))
+* this is a deprecation 10 ([3f17114](https://github.com/DitwanP/action-testing/commit/3f17114c4b6db07fc8491a1e6d79510231fbcfee))
+
+
+
 ## [1.1.15](https://github.com/DitwanP/action-testing/compare/v1.1.14...v1.1.15) (2024-09-23)
 
 **Note:** Version bump only for package @ditwanp/date-logic
