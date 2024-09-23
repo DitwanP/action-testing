@@ -22,12 +22,14 @@
         "section": "Beep Boop 🤖"
       },
       {
-        "type": "deprecation",
+        "type": "docs",
+        "scope": "deprecations",
         "section": "Deprecations"
       },
       {
         "type": "revert",
-        "section": "Reverts"
+        "section": "Reverts",
+        "hidden": true
       },
       {
         "type": "chore",
