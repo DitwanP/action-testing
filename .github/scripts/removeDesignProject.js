@@ -20,13 +20,13 @@ module.exports = async ({ github, context }) => {
       }
     });
 
+    const testProject = await github.rest.projects.get({
+      1,
+    });
+
     // Log the issue information
-    console.log("Issue Title: ", issueInfo.title);
-    console.log("Issue Number: ", issueInfo.number);
-    console.log("Issue Body: ", issueInfo.body);
-    console.log("Issue State: ", issueInfo.state);
-    console.log("Issue URL: ", issueInfo.html_url);
     console.log("All Issue Info:", issueInfo);
+    console.log("Project Info", testProject);
 
   } catch (error) {
     console.error(`Error fetching issue information: ${error.message}`);
