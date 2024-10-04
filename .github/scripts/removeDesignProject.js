@@ -21,7 +21,7 @@ module.exports = async ({ github, context }) => {
     });
 
     const testProject = await github.rest.projects.get({
-      "1",
+      project_id:"1",
     });
 
     // Log the issue information
