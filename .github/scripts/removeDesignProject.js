@@ -16,7 +16,7 @@ module.exports = async ({ github, context }) => {
   const command = `
   gh api graphql -f query="
   query {
-    repository(owner: ${owner}, name: ${repo}) {
+    repository(owner: \\"${owner}\\", name: \\"${repo}\\") {
       projectV2(number: ${projectNumber}) {
         id
       }
