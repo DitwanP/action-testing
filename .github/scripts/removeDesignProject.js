@@ -22,6 +22,8 @@ module.exports = async ({ github, context }) => {
     });
 
     const testProject = await github.rest.projects.get({
+      owner,
+      repo,
       project_id,
     });
 
