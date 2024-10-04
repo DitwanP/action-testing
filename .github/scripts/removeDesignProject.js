@@ -20,9 +20,6 @@ module.exports = async ({ github, context }) => {
       }
     });
 
-    // Fetch the issue details
-    const { data: issue } = await axios.get(issueUrl, config);
-
     // Log the issue information
     console.log("Issue Title: ", issueInfo.title);
     console.log("Issue Number: ", issueInfo.number);
