@@ -1,0 +1,16 @@
+name: Remove Design Project
+on:
+  issues:
+    types: [labeled, opened, edited]
+jobs:
+  product-label:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Remove Project
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const action = require('${{ github.workspace }}/.github/scripts/removeDesignProject.js')
+            await action({github, context, core})

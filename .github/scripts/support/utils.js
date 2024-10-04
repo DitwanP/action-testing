@@ -52,4 +52,32 @@ module.exports = {
       });
     }
   },
+
+  // /**
+  //  * @typedef {object} removeProjectParam
+  //  * @property {InstanceType<typeof import('@actions/github/lib/utils').GitHub>} github
+  //  * @property {import('@actions/github/lib/context').Context} context
+  //  * @property {string} projectId
+  //  *
+  //  * @param {removeProjectParam} obj
+  //  **/
+  //   removeProject: async ({ github, context, label }) => {
+  //     const { owner, repo } = context.repo;
+  //     const issue_number = context.issue.number;
+  
+  //     try {
+  //       await github.rest.issues.removeLabel({
+  //         issue_number,
+  //         owner,
+  //         repo,
+  //         name: label,
+  //       });
+  //     } catch (err) {
+  //       if (err.status === 404) {
+  //         console.log(`The label '${label}' is not associated with issue #${issue_number}.`, err);
+  //       } else {
+  //         console.log("Error while attempting to remove issue label.", err);
+  //       }
+  //     }
+  //   },
 };
