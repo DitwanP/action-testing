@@ -3,6 +3,7 @@
 
 /** @param {import('github-script').AsyncFunctionArguments} AsyncFunctionArguments */
 module.exports = async ({ github, context }) => {
+  const project_id = 1
   const { repo, owner } = context.repo;
 
   const payload = /** @type {import('@octokit/webhooks-types').IssuesEvent} */ (context.payload);
@@ -21,7 +22,7 @@ module.exports = async ({ github, context }) => {
     });
 
     const testProject = await github.rest.projects.get({
-      project_id:"1",
+      project_id,
     });
 
     // Log the issue information
