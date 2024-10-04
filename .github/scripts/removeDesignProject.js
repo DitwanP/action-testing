@@ -11,7 +11,7 @@ module.exports = async ({ github, context }) => {
   } = payload;
 
   try {
-    const issueInfo = await github.rest.issues.get({
+    const { data: issueInfo } = await github.rest.issues.get({
       owner,
       repo,
       issue_number,
