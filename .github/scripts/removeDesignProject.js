@@ -14,13 +14,18 @@ module.exports = async ({ github, context }) => {
 
   // The command to run
   const command = `gh api graphql -f query="
-  query {
-    repository($owner: String! $name: String) {
-      projectV2($number: Int!) {
+  query($owner:String!, $name:String!, $number:Int!) {
+    repository(owner: $owner name: $name) {
+      projectV2(number: $number) {
         id
       }
     }
-  }" -f owner=${owner} -f name=${repo} -F number=${projectNumber}`;
+  }
+  Variables {
+    "owner": ${owner},
+    "name": ${repo},
+    "number: ${projectNumber}
+  }"`;
 
   // Run the command using exec
   exec(command, (error, stdout, stderr) => {
