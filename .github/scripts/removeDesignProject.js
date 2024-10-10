@@ -4,7 +4,7 @@ const { exec } = require('child_process');
 
 /** @param {import('github-script').AsyncFunctionArguments} AsyncFunctionArguments */
 module.exports = async ({ github, context }) => {
-  const projectNumber = 1;                  
+  const projectNumber = 1;
   const { repo, owner } = context.repo;
 
   const payload = /** @type {import('@octokit/webhooks-types').IssuesEvent} */ (context.payload);
@@ -16,7 +16,7 @@ module.exports = async ({ github, context }) => {
   const command = `
   gh api graphql -f query="
   query {
-    repository(owner: \\"${owner}\\", name: \\"${repo}\\") {
+    repository(owner: \"${owner}\", name: \"${repo}\") {
       projectV2(number: ${projectNumber}) {
         id
       }
@@ -51,7 +51,9 @@ module.exports = async ({ github, context }) => {
     });
 
     // Log the issue information
-    console.log("All Issue Info:", issueInfo);
+    console.log("Issue number:", issueInfo.number);
+    console.log("Issue title:", issueInfo.title);
+    console.log("Issue node ID:", issueInfo.node_id);
 
   } catch (error) {
     console.error(`Error fetching issue information: ${error.message}`);
