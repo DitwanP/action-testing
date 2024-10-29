@@ -6,16 +6,12 @@ on:
 jobs:
   contrib-readme-job:
       runs-on: ubuntu-latest
-      name: Automate listing contributers in readme
+      name: A job to automate contrib in readme
       permissions:
         contents: write
         pull-requests: write
       steps:
-          - name: Update Contributor List
+          - name: Contribute List
             uses: akhilmhdh/contributors-readme-action@v2.3.10
-            with:
-              auto_detect_branch_protection: false
-              commit_message: "Updated readme with new contributors"
-              use_username: true
             env:
                 GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
