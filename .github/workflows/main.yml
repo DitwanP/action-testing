@@ -13,5 +13,7 @@ jobs:
       steps:
           - name: Update Contributor List
             uses: akhilmhdh/contributors-readme-action@v2.3.10
+            with: 
+                image_size: 50
             env:
                 GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
