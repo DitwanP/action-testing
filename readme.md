@@ -1,4 +1,4 @@
-## Testing contributors list action
+## Testing contributor list action
 
 <!-- readme: contributors -start -->
 <!-- readme: contributors -end -->
