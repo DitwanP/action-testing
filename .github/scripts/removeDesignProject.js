@@ -20,12 +20,8 @@ module.exports = async ({ github, context }) => {
         id
       }
     }
-  }
-  Variables {
-    "owner": ${owner},
-    "name": ${repo},
-    "number": ${projectNumber}
-  }"`;
+  }' \
+  -f variables='{"owner": "${owner}", "name": "${repo}", "number": "${projectNumber}}"`;
 
   // Run the command using exec
   exec(command, (error, stdout, stderr) => {
