@@ -16,5 +16,6 @@ jobs:
             env:
                 GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
             with:
-                image_size: 75
+                image_size: 50
                 collaborators: all
+                use_username: true
