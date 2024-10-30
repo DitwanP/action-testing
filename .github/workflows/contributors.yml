@@ -5,7 +5,7 @@ on:
           - main
 
 jobs:
-  contrib-readme-job:
+  update-readme-contributors:
       runs-on: ubuntu-latest
       permissions:
         contents: write
