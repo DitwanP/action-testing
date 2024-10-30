@@ -6,9 +6,9 @@
 		<tr>
             <td align="center">
                 <a href="https://github.com/DitwanP">
-                    <img src="https://avatars.githubusercontent.com/u/60022782?v=4" width="75;" alt="DitwanP"/>
+                    <img src="https://avatars.githubusercontent.com/u/60022782?v=4" width="50;" alt="DitwanP"/>
                     <br />
-                    <sub><b>Ditwan Price</b></sub>
+                    <sub><b>DitwanP</b></sub>
                 </a>
             </td>
 		</tr>
