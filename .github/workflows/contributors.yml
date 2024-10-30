@@ -2,7 +2,7 @@ name: Update Contributors
 on:
   push:
     branches:
-      - main
+      - dev
 jobs:
   update-readme-contributors:
     runs-on: ubuntu-latest
