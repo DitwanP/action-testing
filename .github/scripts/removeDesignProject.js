@@ -24,7 +24,7 @@ module.exports = async ({ github, context }) => {
   Variables {
     "owner": ${owner},
     "name": ${repo},
-    "number: ${projectNumber}
+    "number": ${projectNumber}
   }"`;
 
   // Run the command using exec

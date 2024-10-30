@@ -15,4 +15,4 @@ jobs:
             const action = require('${{ github.workspace }}/.github/scripts/removeDesignProject.js')
             await action({github, context, core})
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
