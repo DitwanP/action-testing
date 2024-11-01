@@ -32,12 +32,19 @@ try {
         }
       }
     }
+    variables {
+      "owner": ${owner},
+      "repo": ${repo},
+      "issueNumber": ${issueNumber}
+    }
   `;
 
-  const command = `gh api graphql -f query='${query}' -f owner="${owner}" -f repo="${repo}" -f issueNumber=${issueNumber}`;
-  const result = runQuery(command);
+  const result = runQuery(query);
   const parsedResult = JSON.parse(result);
   const projectItem = parsedResult.data.repository.issue.projectItems.nodes[0];
+
+  console.log(`Query results: ${reult} `)
+  console.log(`Project: ${projectItem} `)
 
   if (projectItem) {
     console.log(`Issue is in project: ${projectItem.project.title} (URL: ${projectItem.project.url})`);
