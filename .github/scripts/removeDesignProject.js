@@ -1,63 +1,61 @@
-// @ts-check
-// const { removeDesignProject } = require("./support/utils");
-// Steps:
-// - get the project id (node id I think) from the issue
-// - 
-const { exec } = require('child_process');
 
-/** @param {import('github-script').AsyncFunctionArguments} AsyncFunctionArguments */
-module.exports = async ({ github, context }) => {
-  const projectNumber = 1;
-  const { repo, owner } = context.repo;
+const { execSync } = require('child_process');
 
-  const payload = /** @type {import('@octokit/webhooks-types').IssuesEvent} */ (context.payload);
-  const {
-    issue: { body, number: issue_number },
-  } = payload;
+// Environment variables from the GitHub Action
+const owner = process.env.OWNER;
+const repo = process.env.REPO;
+const issueNumber = process.env.ISSUE_NUMBER;
+const labelName = process.env.LABEL_NAME;
+const token = process.env.GITHUB_TOKEN;
 
-  // The command to run
-  const command = `gh api graphql -f query='
-  query($owner: String!, $name: String!, $number: Int!) {
-    repository(owner: $owner, name: $name) {
-      projectV2(number: $number) {
-        id
+// Function to execute a GitHub GraphQL command
+function runQuery(query) {
+  return execSync(`gh api graphql -f query='${query}'`, { encoding: 'utf-8' });
+}
+
+try {
+  // GraphQL query to find the project associated with the issue
+  const query = `
+    query($owner: String!, $repo: String!, $issueNumber: Int!) {
+      repository(owner: $owner, name: $repo) {
+        issue(number: $issueNumber) {
+          projectItems(first: 1) {
+            nodes {
+              id
+              project {
+                id
+                title
+                url
+              }
+            }
+          }
+        }
       }
     }
-  }' -f owner="${owner}" -f name="${repo}" -f number=${projectNumber}`;
+  `;
 
-  // Run the command using exec
-  exec(command, (error, stdout, stderr) => {
-    if (error) {
-      console.error(`Error executing command: ${error.message}`);
-      return;
+  const command = `gh api graphql -f query='${query}' -f owner="${owner}" -f repo="${repo}" -f issueNumber=${issueNumber}`;
+  const result = runQuery(command);
+  const parsedResult = JSON.parse(result);
+  const projectItem = parsedResult.data.repository.issue.projectItems.nodes[0];
+
+  if (projectItem) {
+    console.log(`Issue is in project: ${projectItem.project.title} (URL: ${projectItem.project.url})`);
+
+    if (labelName === "Archive") {
+      const archiveQuery = `mutation { archiveProjectV2Item(input: {projectId: "${projectItem.project.id}", itemId: "${projectItem.id}"}) { clientMutationId } }`;
+      runQuery(archiveQuery);
+      console.log("Issue archived in project.");
+    } else if (labelName === "Remove") {
+      const deleteQuery = `mutation { deleteProjectV2Item(input: {projectId: "${projectItem.project.id}", itemId: "${projectItem.id}"}) { clientMutationId } }`;
+      runQuery(deleteQuery);
+      console.log("Issue removed from project.");
+    } else {
+      console.log("No action taken as label is not 'Archive' or 'Remove'.");
     }
-
-    if (stderr) {
-      console.error(`Error in command execution: ${stderr}`);
-      return;
-    }
-
-    // Process and log the result from the stdout
-    console.log(`Command output:\n${stdout}`);
-  });
-
-  try {
-    const { data: issueInfo } = await github.rest.issues.get({
-      owner,
-      repo,
-      issue_number,
-      headers: {
-        'Accept': 'application/vnd.github.raw+json'
-      }
-    });
-
-    // Log the issue information
-    console.log("Issue number:", issueInfo.number);
-    console.log("Issue title:", issueInfo.title);
-    console.log("Issue node ID:", issueInfo.node_id);
-
-  } catch (error) {
-    console.error(`Error fetching issue information: ${error.message}`);
-    process.exit(1);
+  } else {
+    console.log("No associated project found for this issue.");
   }
-};
+} catch (error) {
+  console.error("Error:", error.message);
+}

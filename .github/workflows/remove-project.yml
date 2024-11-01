@@ -1,18 +1,46 @@
-name: Remove Design Project
+# name: Remove Design Project
+# on:
+#   issues:
+#     types: [labeled, opened, edited]
+# jobs:
+#   product-label:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/checkout@v4
+
+#       - name: Remove Project
+#         uses: actions/github-script@v7
+#         with:
+#           script: |
+#             const action = require('${{ github.workspace }}/.github/scripts/removeDesignProject.js')
+#             await action({github, context, core})
+#         env:
+#           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+name: Remove Issue from Project
+
 on:
   issues:
-    types: [labeled, opened, edited]
-jobs:
-  product-label:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
+    types: [labeled]
 
-      - name: Remove Project
-        uses: actions/github-script@v7
+jobs:
+  process-labeled-issue:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
         with:
-          script: |
-            const action = require('${{ github.workspace }}/.github/scripts/removeDesignProject.js')
-            await action({github, context, core})
+          node-version: '16'
+
+      - name: Run Project Issue Processor
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OWNER: ${{ github.repository_owner }}
+          REPO: ${{ github.event.repository.name }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          LABEL_NAME: ${{ github.event.label.name }}
+        run: node processIssue.js
