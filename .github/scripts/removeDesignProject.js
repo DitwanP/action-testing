@@ -11,7 +11,7 @@ const labelName = process.env.LABEL_NAME;
 function runQuery(query) {
   return execSync(`gh api graphql \
     -F owner="${owner}" -F repo="${repo}" -F issueNumber=${issueNumber} \
-    -f query='${query}'`, { encoding: 'utf-8' });
+    -f query=${query}`, { encoding: 'utf-8' });
 }
 
 // GraphQL query to find the project associated with the issue
