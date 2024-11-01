@@ -36,7 +36,6 @@ const query = `
 
 try {
   const result = runQuery(query);
-  console.log(`QUERY RESULTS BEFORE PARSED: ${result} `)
   const parsedResult = JSON.parse(result);
   const projectItem = parsedResult.data.repository.issue.projectItems.nodes[0];
 
