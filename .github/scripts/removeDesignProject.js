@@ -1,5 +1,5 @@
 
-const { execSync } = require('child_process');
+import { execSync } from 'child_process';
 
 // Environment variables from the GitHub Action
 const owner = process.env.OWNER;
