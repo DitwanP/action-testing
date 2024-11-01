@@ -28,10 +28,10 @@ const query = `
 try {
   const result = runQuery(query);
   const parsedResult = JSON.parse(result);
-  const projectItem = parsedResult.data.repository.issue.projectItems.nodes[0];
+  // const projectItem = parsedResult.data.repository.issue.projectItems.nodes[0];
 
   console.log(`QUERY RESULTS: ${result} `)
-  console.log(`PROJECT: ${projectItem} `)
+  // console.log(`PROJECT: ${projectItem} `)
 
   if (projectItem) {
     console.log(`Issue is in project: ${projectItem.project.title} (URL: ${projectItem.project.url})`);
