@@ -1,5 +1,8 @@
 // @ts-check
 // const { removeDesignProject } = require("./support/utils");
+// Steps:
+// - get the project id (node id I think) from the issue
+// - 
 const { exec } = require('child_process');
 
 /** @param {import('github-script').AsyncFunctionArguments} AsyncFunctionArguments */
@@ -20,8 +23,7 @@ module.exports = async ({ github, context }) => {
         id
       }
     }
-  }'
-  Variables {"owner": ${owner}, "name": ${repo}, "number": ${projectNumber}
+  }' -f owner=${owner} -f name=${repo} -f number=${projectNumber}
   }"`;
 
   // Run the command using exec
