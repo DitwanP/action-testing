@@ -6,12 +6,11 @@ const owner = process.env.OWNER;
 const repo = process.env.REPO;
 const issueNumber = process.env.ISSUE_NUMBER;
 const labelName = process.env.LABEL_NAME;
-// const token = process.env.GITHUB_TOKEN;
 
 // Function to execute a GitHub GraphQL command
 function runQuery(query) {
   return execSync(`gh api graphql \
-    -F owner=${owner} -F repo=${repo} -F issueNumber=${issueNumber} \
+    -F owner="${owner}" -F repo="${repo}" -F issueNumber=${issueNumber} \
     -f query='${query}'`, { encoding: 'utf-8' });
 }
 
