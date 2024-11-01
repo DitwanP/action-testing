@@ -21,7 +21,7 @@ name: Remove Issue from Project
 
 on:
   issues:
-    types: [labeled]
+    types: [labeled, edited]
 
 jobs:
   process-labeled-issue:
