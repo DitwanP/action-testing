@@ -23,7 +23,7 @@ module.exports = async ({ github, context }) => {
         id
       }
     }
-  }' -f owner=${owner} -f name=${repo} -f number=${projectNumber}"`;
+  }" -f owner=${owner} -f name=${repo} -f number=${projectNumber}`;
 
   // Run the command using exec
   exec(command, (error, stdout, stderr) => {
