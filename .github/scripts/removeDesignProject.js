@@ -43,7 +43,7 @@ try {
   const parsedResult = JSON.parse(result);
   const projectItem = parsedResult.data.repository.issue.projectItems.nodes[0];
 
-  console.log(`Query results: ${reult} `)
+  console.log(`Query results: ${result} `)
   console.log(`Project: ${projectItem} `)
 
   if (projectItem) {
