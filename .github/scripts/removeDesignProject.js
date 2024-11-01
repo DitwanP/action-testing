@@ -6,7 +6,7 @@ const owner = process.env.OWNER;
 const repo = process.env.REPO;
 const issueNumber = process.env.ISSUE_NUMBER;
 const labelName = process.env.LABEL_NAME;
-const token = process.env.GITHUB_TOKEN;
+// const token = process.env.GITHUB_TOKEN;
 
 // Function to execute a GitHub GraphQL command
 function runQuery(query) {
@@ -15,9 +15,8 @@ function runQuery(query) {
     -f query='${query}'`, { encoding: 'utf-8' });
 }
 
-try {
-  // GraphQL query to find the project associated with the issue
-  const query = `
+// GraphQL query to find the project associated with the issue
+const query = `
     query($owner: String!, $repo: String!, $issueNumber: Int!) {
       repository(owner: $owner, name: $repo) {
         issue(number: $issueNumber) {
@@ -36,26 +35,25 @@ try {
     }
   `;
 
+try {
   const result = runQuery(query);
   const parsedResult = JSON.parse(result);
   const projectItem = parsedResult.data.repository.issue.projectItems.nodes[0];
 
-  console.log(`Query results: ${result} `)
-  console.log(`Project: ${projectItem} `)
+  console.log(`QUERY RESULTS: ${result} `)
+  console.log(`PROJECT: ${projectItem} `)
 
   if (projectItem) {
     console.log(`Issue is in project: ${projectItem.project.title} (URL: ${projectItem.project.url})`);
 
-    if (labelName === "Archive") {
+    if (labelName === "ready for dev") {
       const archiveQuery = `mutation { archiveProjectV2Item(input: {projectId: "${projectItem.project.id}", itemId: "${projectItem.id}"}) { clientMutationId } }`;
       runQuery(archiveQuery);
       console.log("Issue archived in project.");
-    } else if (labelName === "Remove") {
-      const deleteQuery = `mutation { deleteProjectV2Item(input: {projectId: "${projectItem.project.id}", itemId: "${projectItem.id}"}) { clientMutationId } }`;
-      runQuery(deleteQuery);
-      console.log("Issue removed from project.");
+    } else if (labelName === "good first issue") {
+      console.log("IT'S ALIVE! 🤖");
     } else {
-      console.log("No action taken as label is not 'Archive' or 'Remove'.");
+      console.log("No action taken as label is not 'ready for dev'.");
     }
   } else {
     console.log("No associated project found for this issue.");
