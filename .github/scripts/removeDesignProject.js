@@ -10,7 +10,9 @@ const token = process.env.GITHUB_TOKEN;
 
 // Function to execute a GitHub GraphQL command
 function runQuery(query) {
-  return execSync(`gh api graphql -f query='${query}'`, { encoding: 'utf-8' });
+  return execSync(`gh api graphql \
+    -F owner=${owner} -F repo=${repo} -F issueNumber=${issueNumber}\
+    -f query='${query}'`, { encoding: 'utf-8' });
 }
 
 try {
@@ -31,11 +33,6 @@ try {
           }
         }
       }
-    }
-    variables {
-      "owner": ${owner},
-      "repo": ${repo},
-      "issueNumber": ${issueNumber}
     }
   `;
 
