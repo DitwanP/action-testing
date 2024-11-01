@@ -43,4 +43,4 @@ jobs:
           REPO: ${{ github.event.repository.name }}
           ISSUE_NUMBER: ${{ github.event.issue.number }}
           LABEL_NAME: ${{ github.event.label.name }}
-        run: node removeDesignProject.js
+        run: node .github/scripts/removeDesignProject.js
