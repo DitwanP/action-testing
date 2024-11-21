@@ -22,11 +22,6 @@ const query = `
           projectItems(first: 1) {
             nodes {
               id
-              project {
-                id
-                title
-                url
-              }
             }
           }
         }
