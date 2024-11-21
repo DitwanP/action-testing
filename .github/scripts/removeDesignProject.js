@@ -19,7 +19,16 @@ const query = `
     query($owner: String!, $repo: String!, $issueNumber: Int!) {
       repository(owner: $owner, name: $repo) {
         issue(number: $issueNumber) {
-          number
+          projectItems(first: 1) {
+            nodes {
+              id
+              project {
+                id
+                title
+                url
+              }
+            }
+          }
         }
       }
     }
