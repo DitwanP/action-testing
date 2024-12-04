@@ -1,6 +1,6 @@
 // @ts-check
 const {
-  labels: { handoff, planning },
+  labels: { planning },
 } = require("./support/resources");
 
 /** @param {import('github-script').AsyncFunctionArguments} AsyncFunctionArguments */
