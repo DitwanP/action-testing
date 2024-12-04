@@ -2,7 +2,6 @@ name: Remove PR from changelog
 on:
   pull_request:
     types:
-      - edited
       - labeled
       - opened
     branches:
