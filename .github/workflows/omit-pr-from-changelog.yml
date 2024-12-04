@@ -1,7 +1,8 @@
 name: Remove PR from changelog
 on:
-  issues:
-    types: [opened, labeled]
+  pull_request:
+    branches:
+      - main
 jobs:
   product-label:
     runs-on: ubuntu-latest

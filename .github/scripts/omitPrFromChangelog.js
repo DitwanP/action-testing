@@ -6,32 +6,31 @@ const {
 /** @param {import('github-script').AsyncFunctionArguments} AsyncFunctionArguments */
 module.exports = async ({ github, context }) => {
   const { repo, owner } = context.repo;
-  const payload = /** @type {import('@octokit/webhooks-types').IssuesLabeledEvent} */ (context.payload);
-  const {
-    label,
-    issue: { number },
-  } = payload;
+  const payload = /** @type {import('@octokit/webhooks-types').PullRequestLabeledEvent} */ (context.payload);
+  const {label, pull_request: { number },} = payload;
 
-  const issueBody = payload.issue.body;
+  const pullRequestBody = payload.pull_request.body;
   const ommitComment = `\n\nBEGIN_COMMIT_OVERRIDE\nEND_COMMIT_OVERRIDE`
 
-  if (!issueBody) {
+  if (!pullRequestBody) {
     console.log("No issue body was found");
     return;
   }
 
    if (label?.name === planning.noChangelogEntry) {
-    const issueProps = {
+    const pullRequestProps = {
       owner,
       repo,
-      issue_number: number,
+      pull_number: number,
     };
 
-    const newIssueBody = issueBody + ommitComment;
+    const newPullRequestBody = pullRequestBody + ommitComment;
 
-    await github.rest.issues.update({
-      ...issueProps,
-      body: newIssueBody,
+    await github.rest.pulls.update({
+      ...pullRequestProps,
+      body: newPullRequestBody,
     });
+  } else {
+    console.log(`The \`no changleog entry\` label is not present on this PR.`);
   }
 };
