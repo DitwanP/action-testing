@@ -13,7 +13,7 @@ module.exports = async ({ github, context }) => {
   } = payload;
 
   const issueBody = payload.issue.body;
-  const ommitComment = `BEGIN_COMMIT_OVERRIDE \n END_COMMIT_OVERRIDE`
+  const ommitComment = `\n\nBEGIN_COMMIT_OVERRIDE\nEND_COMMIT_OVERRIDE`
 
   if (!issueBody) {
     console.log("No issue body was found");
