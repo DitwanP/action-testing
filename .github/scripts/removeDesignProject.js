@@ -32,7 +32,7 @@ const query = `
 try {
   const result = runQuery(query);
   const parsedResult = JSON.parse(result);
-  // const projectItem = parsedResult.data.repository.issue.projectItems.nodes[0];
+  const projectItem = parsedResult.data.repository.issue.projectItems.nodes[0];
 
   console.log(`QUERY RESULTS: ${result} `)
   // console.log(`PROJECT: ${projectItem} `)

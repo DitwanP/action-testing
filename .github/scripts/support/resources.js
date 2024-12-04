@@ -28,6 +28,7 @@ const resources = {
       needsMilestone: "needs milestone",
       spike: "spike",
       spikeComplete: "spike complete",
+      noChangelogEntry: "no changelog entry"
     },
     priority: {
       low: "p - low",
