@@ -1,4 +1,4 @@
-name: Add Issue Labels
+name: Remove PR from changelog
 on:
   issues:
     types: [opened, labeled]
@@ -8,7 +8,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Add Esri Product Label
+      - name: Add omit comment to PR
         uses: actions/github-script@v7
         with:
           script: |
