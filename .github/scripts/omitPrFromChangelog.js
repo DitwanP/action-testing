@@ -24,6 +24,8 @@ module.exports = async ({ github, context }) => {
   if (pullRequestBody.match(omitCommentRegex)) {
     console.log("This PR is already omitted from the changelog, ending run.");
     return;
+  } else {
+    console.log("No duplicate comment match!!")
   }
 
   if (label?.name === planning.noChangelogEntry) {
