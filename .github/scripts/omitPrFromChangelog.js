@@ -14,7 +14,7 @@ module.exports = async ({ github, context }) => {
 
   const pullRequestBody = payload.pull_request.body;
   const omitComment = `\n\nBEGIN_COMMIT_OVERRIDE\nEND_COMMIT_OVERRIDE`;
-  const omitCommentRegex = /BEGIN_COMMIT_OVERRIDE\nEND_COMMIT_OVERRIDE/gm;
+  const omitCommentRegex = /\nBEGIN_COMMIT_OVERRIDE\nEND_COMMIT_OVERRIDE/gm;
 
   if (!pullRequestBody) {
     console.log("No issue body was found, ending run.");
