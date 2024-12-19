@@ -26,6 +26,8 @@ const query = `
       nameWithOwner
       description
       issue(number: $issueNumber) {
+        id
+        title
         projectItems(first: 1) {
           nodes {
             id
