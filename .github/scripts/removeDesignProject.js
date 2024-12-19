@@ -39,7 +39,7 @@ const query = `
 const variables = {
   owner: "DitwanP",
   repo: "action-testing",
-  issueNumber: 8,
+  issueNumber: 12,
 };
 
 try {
