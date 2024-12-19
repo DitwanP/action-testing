@@ -18,26 +18,28 @@ function runQuery(query) {
 
 // GraphQL query to find the project associated with the issue
 const query = `
-    query($owner: String!, $repo: String!, $issueNumber: Int!) {
-      repository(owner: $owner, name: $repo) {
-        issue(number: $issueNumber) {
-          projectItems(first: 1) {
-            nodes {
+  query($owner: String!, $repo: String!, $issueNumber: Int!) {
+    repository(owner: $owner, name: $repo) {
+      issue(number: $issueNumber) {
+        projectItems(first: 1) {
+          nodes {
+            id
+            project {
               id
+              title
+              url
             }
           }
         }
       }
     }
-  `;
+  }
+`;
 
 try {
   const result = runQuery(query);
   const parsedResult = JSON.parse(result);
-  const projectItem = result.data.repository.issue.projectItems.nodes[0];
-
-  console.log(`QUERY RESULTS: ${parsedResult} `);
-  // console.log(`PROJECT: ${projectItem} `)
+  const projectItem = parsedResult.data.repository.issue.projectItems.nodes[0];
 
   if (projectItem) {
     console.log(
