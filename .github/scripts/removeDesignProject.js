@@ -24,12 +24,9 @@ const query = `
         id
         title
         projectItems(first: 1) {
-          nodes {
-            id
-            project {
+          edges {
+            node {
               id
-              title
-              url
             }
           }
         }
