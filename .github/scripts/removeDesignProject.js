@@ -8,9 +8,10 @@ const labelName = process.env.LABEL_NAME;
 
 // Function to execute a GitHub GraphQL command
 function runQuery(query) {
+  console.log("Executing query:", query);
   return execSync(
     `gh api graphql \
-    -F owner="DitwanP" -F repo="action-testing" -F issueNumber=8 \
+    -F owner="${owner}" -F repo="${repo}" -F issueNumber=${issueNumber} \
     -f query='${query}'`,
     { encoding: "utf-8" }
   );
