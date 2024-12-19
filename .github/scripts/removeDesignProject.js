@@ -13,7 +13,7 @@ function runQuery(query) {
   //   `gh api graphql -f query='${query}' -F owner="${owner}" -F repo="${repo}" -F issueNumber=${issueNumber}`,
   //   { encoding: "utf-8" }
   // );
-  const command = `gh api -XGET graphql -f query='${query}' -F owner="${owner}" -F repo="${repo}" -F issueNumber=${issueNumber}`;
+  const command = `gh api graphql -f query='${query}' -F owner="${owner}" -F repo="${repo}" -F issueNumber=${issueNumber}`;
   console.log("Command:", command);
   return execSync(command, { encoding: "utf-8" });
 }
@@ -22,6 +22,9 @@ function runQuery(query) {
 const query = `
   query($owner: String!, $repo: String!, $issueNumber: Int!) {
     repository(owner: $owner, name: $repo) {
+      id
+      nameWithOwner
+      description
       issue(number: $issueNumber) {
         projectItems(first: 1) {
           nodes {
