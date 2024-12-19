@@ -37,7 +37,7 @@ const query = `
 `;
 
 try {
-  const result = runQuery(query, variables);
+  const result = runQuery(query);
   console.log("Raw query result:", result);
   const parsedResult = JSON.parse(result);
   console.log("Parsed result:", parsedResult);
