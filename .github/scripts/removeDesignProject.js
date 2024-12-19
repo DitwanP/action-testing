@@ -1,5 +1,4 @@
-
-const { execSync } = require('child_process');
+const { execSync } = require("child_process");
 
 // Environment variables from the GitHub Action
 const owner = process.env.OWNER;
@@ -9,9 +8,12 @@ const labelName = process.env.LABEL_NAME;
 
 // Function to execute a GitHub GraphQL command
 function runQuery(query) {
-  return execSync(`gh api graphql \
+  return execSync(
+    `gh api graphql \
     -F owner="${owner}" -F repo="${repo}" -F issueNumber=${issueNumber} \
-    -f query='${query}'`, { encoding: 'utf-8' });
+    -f query='${query}'`,
+    { encoding: "utf-8" }
+  );
 }
 
 // GraphQL query to find the project associated with the issue
@@ -34,11 +36,13 @@ try {
   const parsedResult = JSON.parse(result);
   const projectItem = parsedResult.data.repository.issue.projectItems.nodes[0];
 
-  console.log(`QUERY RESULTS: ${result} `)
+  console.log(`QUERY RESULTS: ${parsedResult} `);
   // console.log(`PROJECT: ${projectItem} `)
 
   if (projectItem) {
-    console.log(`Issue is in project: ${projectItem.project.title} (URL: ${projectItem.project.url})`);
+    console.log(
+      `Issue is in project: ${projectItem.project.title} (URL: ${projectItem.project.url})`
+    );
 
     if (labelName === "ready for dev") {
       const archiveQuery = `mutation { archiveProjectV2Item(input: {projectId: "${projectItem.project.id}", itemId: "${projectItem.id}"}) { clientMutationId } }`;
