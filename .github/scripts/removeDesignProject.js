@@ -8,7 +8,7 @@ const labelName = process.env.LABEL_NAME;
 
 // Function to execute a GitHub GraphQL command
 function runQuery(query) {
-  const command = `gh api graphql -H "X-Github-Next-Global-ID: 1" -f query='${query}' -F owner="${owner}" -F repo="${repo}" -F issueNumber=${issueNumber}`;
+  const command = `gh api graphql -f query='${query}' -F owner="${owner}" -F repo="${repo}" -F issueNumber=${issueNumber}`;
   console.log("Command:", command);
   return execSync(command, { encoding: "utf-8" });
 }
@@ -24,9 +24,12 @@ const query = `
         id
         title
         projectItems(first: 1) {
-          edges {
-            node {
+          nodes {
+            id
+            project {
               id
+              title
+              url
             }
           }
         }
