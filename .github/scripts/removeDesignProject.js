@@ -9,12 +9,13 @@ const labelName = process.env.LABEL_NAME;
 // Function to execute a GitHub GraphQL command
 function runQuery(query) {
   console.log("Executing query:", query);
-  return execSync(
-    `gh api graphql \
-    -F owner="${owner}" -F repo="${repo}" -F issueNumber=${issueNumber} \
-    -f query='${query}'`,
-    { encoding: "utf-8" }
-  );
+  // return execSync(
+  //   `gh api graphql -f query='${query}' -F owner="${owner}" -F repo="${repo}" -F issueNumber=${issueNumber}`,
+  //   { encoding: "utf-8" }
+  // );
+  const command = `gh api graphql -f query='${query}' -F owner="${owner}" -F repo="${repo}" -F issueNumber=${issueNumber}`;
+  console.log("Command:", command);
+  return execSync(command, { encoding: "utf-8" });
 }
 
 // GraphQL query to find the project associated with the issue
