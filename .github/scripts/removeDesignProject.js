@@ -36,8 +36,14 @@ const query = `
   }
 `;
 
+const variables = {
+  owner: "DitwanP",
+  repo: "action-testing",
+  issueNumber: 8,
+};
+
 try {
-  const result = runQuery(query);
+  const result = runQuery(query, variables);
   console.log("Raw query result:", result);
   const parsedResult = JSON.parse(result);
   console.log("Parsed result:", parsedResult);
