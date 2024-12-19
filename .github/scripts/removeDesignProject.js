@@ -8,7 +8,6 @@ const labelName = process.env.LABEL_NAME;
 
 // Function to execute a GitHub GraphQL command
 function runQuery(query) {
-  console.log("Executing query:", query);
   // return execSync(
   //   `gh api graphql -f query='${query}' -F owner="${owner}" -F repo="${repo}" -F issueNumber=${issueNumber}`,
   //   { encoding: "utf-8" }
@@ -47,7 +46,7 @@ try {
   const result = runQuery(query);
   console.log("Raw query result:", result);
   const parsedResult = JSON.parse(result);
-  console.log("Parsed result:", parsedResult);
+  console.log("Parsed result:", JSON.stringify(parsedResult, null, 2));
   const projectItem = parsedResult.data.repository.issue.projectItems.nodes[0];
   console.log("Project Item:", projectItem);
 
