@@ -42,6 +42,7 @@ try {
   const parsedResult = JSON.parse(result);
   console.log("Parsed result:", parsedResult);
   const projectItem = parsedResult.data.repository.issue.projectItems.nodes[0];
+  console.log("Project Item:", projectItem);
 
   if (projectItem) {
     console.log(
