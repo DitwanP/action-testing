@@ -10,7 +10,7 @@ const labelName = process.env.LABEL_NAME;
 function runQuery(query) {
   return execSync(
     `gh api graphql \
-    -F owner="${owner}" -F repo="${repo}" -F issueNumber=${issueNumber} \
+    -F owner="DitwanP" -F repo="action-testing" -F issueNumber=8 \
     -f query='${query}'`,
     { encoding: "utf-8" }
   );
@@ -35,12 +35,6 @@ const query = `
     }
   }
 `;
-
-const variables = {
-  owner: "DitwanP",
-  repo: "action-testing",
-  issueNumber: 12,
-};
 
 try {
   const result = runQuery(query, variables);
