@@ -38,7 +38,9 @@ const query = `
 
 try {
   const result = runQuery(query);
+  console.log("Raw query result:", result);
   const parsedResult = JSON.parse(result);
+  console.log("Parsed result:", parsedResult);
   const projectItem = parsedResult.data.repository.issue.projectItems.nodes[0];
 
   if (projectItem) {
