@@ -1,4 +1,4 @@
-const { execSync } = require("child_process");
+import { execSync } from "child_process";
 
 // Environment variables from the GitHub Action
 const owner = process.env.OWNER;
@@ -40,7 +40,6 @@ const query = `
 
 try {
   const result = runQuery(query);
-  console.log("Raw query result:", result);
   const parsedResult = JSON.parse(result);
   console.log("Parsed result:", JSON.stringify(parsedResult, null, 2));
   const projectItem = parsedResult.data.repository.issue.projectItems.nodes[0];
@@ -48,15 +47,13 @@ try {
 
   if (projectItem) {
     console.log(
-      `Issue is in project: ${projectItem.project.title} (URL: ${projectItem.project.url})`
+      `Issue #${issueNumber} is in design project: ${projectItem.project.title} (URL: ${projectItem.project.url})`
     );
 
     if (labelName === "ready for dev") {
       const archiveQuery = `mutation { archiveProjectV2Item(input: {projectId: "${projectItem.project.id}", itemId: "${projectItem.id}"}) { clientMutationId } }`;
       runQuery(archiveQuery);
       console.log("Issue archived in project.");
-    } else if (labelName === "good first issue") {
-      console.log("IT'S ALIVE! 🤖");
     } else {
       console.log("No action taken as label is not 'ready for dev'.");
     }
