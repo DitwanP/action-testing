@@ -4,10 +4,6 @@ on:
   issues:
     types: [labeled]
 
-permissions:
-  issues: write
-  repository-projects: write
-
 jobs:
   process-labeled-issue:
     runs-on: ubuntu-latest
@@ -23,7 +19,7 @@ jobs:
 
       - name: Archive Issue
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PROJECTS_TOKEN }}
           OWNER: ${{ github.repository_owner }}
           REPO: ${{ github.event.repository.name }}
           ISSUE_NUMBER: ${{ github.event.issue.number }}

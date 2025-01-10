@@ -14,8 +14,14 @@ function runQuery(query) {
 
 // Function to create a comment
 async function createComment(body) {
-  const command = `gh issue comment ${issueNumber} --body "${body}"`
-  return execSync(command, { encoding: "utf-8" });
+  // const command = `gh issue comment ${issueNumber} --body "${body}"`
+  // return execSync(command, { encoding: "utf-8" });
+  await octokit.issues.createComment({
+    owner,
+    repo,
+    issue_number: issueNumber,
+    body: body,
+  });
 }
 
 // GraphQL query to find the project associated with the issue
