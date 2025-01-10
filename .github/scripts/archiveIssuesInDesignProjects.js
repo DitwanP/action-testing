@@ -18,12 +18,10 @@ function runQuery(query) {
   return execSync(command, { encoding: "utf-8" });
 }
 
-// Create comment function
+// Function to create a comment
 async function createComment(body) {
-  await github.rest.issues.createComment({
-    ...issueProps,
-    body,
-  });
+  const command = `gh issue comment '${issueNumber} --body '${body}'`
+  return execSync(command, { encoding: "utf-8" });
 }
 
 // GraphQL query to find the project associated with the issue
