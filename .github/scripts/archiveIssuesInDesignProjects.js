@@ -6,12 +6,6 @@ const repo = process.env.REPO;
 const issueNumber = process.env.ISSUE_NUMBER;
 const labelName = process.env.LABEL_NAME;
 
-const issueProps = {
-  repo,
-  owner,
-  issue_number: Number(issueNumber),
-};
-
 // Function to execute a GitHub GraphQL command
 function runQuery(query) {
   const command = `gh api graphql -f query='${query}' -F owner="${owner}" -F repo="${repo}" -F issueNumber=${issueNumber}`;
