@@ -1,20 +1,10 @@
 const { execSync } = require("child_process");
 
 // Environment variables from the GitHub Action
-// const owner = process.env.OWNER;
-// const repo = process.env.REPO;
-// const issueNumber = process.env.ISSUE_NUMBER;
-// const labelName = process.env.LABEL_NAME;
-
-/** @param {import('github-script').AsyncFunctionArguments} AsyncFunctionArguments */
-module.exports = async ({ github, context }) => {
-const { repo, owner } = context.repo;
-const payload =
-/** @type {import('@octokit/webhooks-types').IssuesLabeledEvent} */ (
-  context.payload
-);
-const issueNumber = payload.issue.number;
-const labelName = payload.label.name;
+const owner = process.env.OWNER;
+const repo = process.env.REPO;
+const issueNumber = process.env.ISSUE_NUMBER;
+const labelName = process.env.LABEL_NAME;
 
 const issueProps = {
   repo,
@@ -81,5 +71,4 @@ try {
   }
 } catch (error) {
   console.error("Error:", error.message);
-}
 }
