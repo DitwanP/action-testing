@@ -50,10 +50,6 @@ try {
   console.log("Project Item:", projectItem);
 
   if (projectItem) {
-    console.log(
-      `Issue #${issueNumber} is in design project: ${projectItem.project.title} (URL: ${projectItem.project.url})`
-    );
-
     if (labelName === "ready for dev") {
       const archiveQuery = `mutation { archiveProjectV2Item(input: {projectId: "${projectItem.project.id}", itemId: "${projectItem.id}"}) { clientMutationId } }`;
       runQuery(archiveQuery);
