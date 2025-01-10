@@ -18,6 +18,14 @@ function runQuery(query) {
   return execSync(command, { encoding: "utf-8" });
 }
 
+// Create comment function
+async function createComment(body) {
+  await github.rest.issues.createComment({
+    ...issueProps,
+    body,
+  });
+}
+
 // GraphQL query to find the project associated with the issue
 const query = `
   query($owner: String!, $repo: String!, $issueNumber: Int!) {
@@ -57,12 +65,8 @@ try {
     if (labelName === "ready for dev") {
       const archiveQuery = `mutation { archiveProjectV2Item(input: {projectId: "${projectItem.project.id}", itemId: "${projectItem.id}"}) { clientMutationId } }`;
       runQuery(archiveQuery);
+      createComment(`Issue #${issueNumber} has been archived in project "[${projectItem.project.title}](${projectItem.project.url}/archive)".)`)
       console.log("Issue archived in project.");
-      
-      await github.rest.issues.createComment({
-        ...issueProps,
-        body: `Issue #${issueNumber} has been archived in project "[${projectItem.project.title}](${projectItem.project.url}/archive)".)`,
-      });
     } else {
       console.log("No action taken, new label was not 'ready for dev'.");
     }
