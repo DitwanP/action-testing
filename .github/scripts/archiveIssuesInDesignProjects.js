@@ -63,7 +63,7 @@ try {
     if (labelName === "ready for dev") {
       const archiveQuery = `mutation { archiveProjectV2Item(input: {projectId: "${projectItem.project.id}", itemId: "${projectItem.id}"}) { clientMutationId } }`;
       runQuery(archiveQuery);
-      createComment(`Issue #${issueNumber} has been archived in project "[${projectItem.project.title}](${projectItem.project.url}/archive)".)`)
+      createComment(`Issue #${issueNumber} has been archived in project [${projectItem.project.title}](${projectItem.project.url}/archive)`)
       console.log("Issue archived in project.");
     } else {
       console.log("No action taken, new label was not 'ready for dev'.");
