@@ -4,6 +4,10 @@ on:
   issues:
     types: [labeled]
 
+permissions:
+  issues: write
+  repository-projects: write
+
 jobs:
   process-labeled-issue:
     runs-on: ubuntu-latest
