@@ -20,7 +20,7 @@ function runQuery(query) {
 
 // Function to create a comment
 async function createComment(body) {
-  const command = `gh issue comment '${issueNumber} --body '${body}'`
+  const command = `gh issue comment ${issueNumber} --body "${body}"`
   return execSync(command, { encoding: "utf-8" });
 }
 
