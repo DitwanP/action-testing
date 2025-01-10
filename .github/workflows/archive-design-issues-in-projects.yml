@@ -1,4 +1,4 @@
-name: Remove Issue from Project
+name: Archive Issue in Project
 
 on:
   issues:
@@ -17,11 +17,11 @@ jobs:
         with:
           node-version: "16"
 
-      - name: Remove issue
+      - name: Archive Issue
         env:
           GITHUB_TOKEN: ${{ secrets.PROJECTS_TOKEN }}
           OWNER: ${{ github.repository_owner }}
           REPO: ${{ github.event.repository.name }}
           ISSUE_NUMBER: ${{ github.event.issue.number }}
           LABEL_NAME: ${{ github.event.label.name }}
-        run: node .github/scripts/removeDesignProject.js
+        run: node .github/scripts/archiveIssuesInDesignProjects.js

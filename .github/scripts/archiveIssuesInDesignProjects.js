@@ -1,15 +1,30 @@
 const { execSync } = require("child_process");
 
 // Environment variables from the GitHub Action
-const owner = process.env.OWNER;
-const repo = process.env.REPO;
-const issueNumber = process.env.ISSUE_NUMBER;
-const labelName = process.env.LABEL_NAME;
+// const owner = process.env.OWNER;
+// const repo = process.env.REPO;
+// const issueNumber = process.env.ISSUE_NUMBER;
+// const labelName = process.env.LABEL_NAME;
+
+/** @param {import('github-script').AsyncFunctionArguments} AsyncFunctionArguments */
+module.exports = async ({ github, context }) => {
+const { repo, owner } = context.repo;
+const payload =
+/** @type {import('@octokit/webhooks-types').IssuesLabeledEvent} */ (
+  context.payload
+);
+const issueNumber = payload.issue.number;
+const labelName = payload.label.name;
+
+const issueProps = {
+  repo,
+  owner,
+  issue_number: Number(issueNumber),
+};
 
 // Function to execute a GitHub GraphQL command
 function runQuery(query) {
   const command = `gh api graphql -f query='${query}' -F owner="${owner}" -F repo="${repo}" -F issueNumber=${issueNumber}`;
-  console.log("Command:", command);
   return execSync(command, { encoding: "utf-8" });
 }
 
@@ -41,7 +56,6 @@ const query = `
 try {
   const result = runQuery(query);
   const parsedResult = JSON.parse(result);
-  console.log("Parsed result:", JSON.stringify(parsedResult, null, 2));
   const projectItem = parsedResult.data.repository.issue.projectItems.nodes[0];
   console.log("Project Item:", projectItem);
 
@@ -54,12 +68,18 @@ try {
       const archiveQuery = `mutation { archiveProjectV2Item(input: {projectId: "${projectItem.project.id}", itemId: "${projectItem.id}"}) { clientMutationId } }`;
       runQuery(archiveQuery);
       console.log("Issue archived in project.");
+      
+      await github.rest.issues.createComment({
+        ...issueProps,
+        body: `Issue #${issueNumber} has been archived in project "[${projectItem.project.title}](${projectItem.project.url}/archive)".)`,
+      });
     } else {
-      console.log("No action taken as label is not 'ready for dev'.");
+      console.log("No action taken, new label was not 'ready for dev'.");
     }
   } else {
     console.log("No associated project found for this issue.");
   }
 } catch (error) {
   console.error("Error:", error.message);
+}
 }
