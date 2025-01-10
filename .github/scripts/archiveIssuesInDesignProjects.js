@@ -1,10 +1,14 @@
 const { execSync } = require("child_process");
+const { Octokit } = require("@octokit/rest");
 
 // Environment variables from the GitHub Action
 const owner = process.env.OWNER;
 const repo = process.env.REPO;
 const issueNumber = process.env.ISSUE_NUMBER;
 const labelName = process.env.LABEL_NAME;
+const projectsToken = process.env.PROJECTS_TOKEN;
+
+const octokit = new Octokit({ auth: projectsToken });
 
 // Function to execute a GitHub GraphQL command
 function runQuery(query) {
