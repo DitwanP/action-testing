@@ -1,14 +1,10 @@
 const { execSync } = require("child_process");
-const { Octokit } = require("@octokit/rest");
 
 // Environment variables from the GitHub Action
 const owner = process.env.OWNER;
 const repo = process.env.REPO;
 const issueNumber = process.env.ISSUE_NUMBER;
 const labelName = process.env.LABEL_NAME;
-const projectsToken = process.env.PROJECTS_TOKEN;
-
-const octokit = new Octokit({ auth: projectsToken });
 
 // Function to execute a GitHub GraphQL command
 function runQuery(query) {
@@ -18,14 +14,8 @@ function runQuery(query) {
 
 // Function to create a comment
 async function createComment(body) {
-  // const command = `gh issue comment ${issueNumber} --body "${body}"`
-  // return execSync(command, { encoding: "utf-8" });
-  await octokit.issues.createComment({
-    owner,
-    repo,
-    issue_number: issueNumber,
-    body: body,
-  });
+  const command = `gh issue comment ${issueNumber} --body "${body}"`
+  return execSync(command, { encoding: "utf-8" });
 }
 
 // GraphQL query to find the project associated with the issue
