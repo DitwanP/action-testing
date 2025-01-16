@@ -6,6 +6,7 @@ on:
 
 jobs:
   process-labeled-issue:
+    if: github.event.label.name == 'ready for dev'
     runs-on: ubuntu-latest
 
     steps:
@@ -18,7 +19,6 @@ jobs:
           node-version: "16"
 
       - name: Archive Issue
-        if: github.event.label.name == 'ready for dev'
         env:
           GITHUB_TOKEN: ${{ secrets.PROJECTS_TOKEN }}
           OWNER: ${{ github.repository_owner }}
