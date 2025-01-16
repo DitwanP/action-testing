@@ -4,7 +4,6 @@ const { execSync } = require("child_process");
 const owner = process.env.OWNER;
 const repo = process.env.REPO;
 const issueNumber = process.env.ISSUE_NUMBER;
-const labelName = process.env.LABEL_NAME;
 
 // Function to execute a GitHub GraphQL command
 function runQuery(query) {
@@ -50,14 +49,10 @@ try {
   console.log("Project Item:", projectItem);
 
   if (projectItem) {
-    if (labelName === "ready for dev") {
       const archiveQuery = `mutation { archiveProjectV2Item(input: {projectId: "${projectItem.project.id}", itemId: "${projectItem.id}"}) { clientMutationId } }`;
       runQuery(archiveQuery);
-      createComment(`This issue has been archived in the [${projectItem.project.title}](${projectItem.project.url}/archive) project.`)
+      createComment(`The design work for this issue has been completed and it is now ready for development.\n\nThe issue has been archived in the [${projectItem.project.title}](${projectItem.project.url}/archive) project.`)
       console.log("Issue archived in project.");
-    } else {
-      console.log("No action taken, new label was not 'ready for dev'.");
-    }
   } else {
     console.log("No associated project found for this issue.");
   }
