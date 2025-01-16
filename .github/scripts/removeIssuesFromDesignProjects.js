@@ -52,7 +52,7 @@ try {
       const deleteQuery = `mutation { deleteProjectV2Item(input: {projectId: "${projectItem.project.id}", itemId: "${projectItem.id}"}) { clientMutationId } }`;
       runQuery(deleteQuery);
       createComment(`The issue has been removed from the [${projectItem.project.title}](${projectItem.project.url}) project.`)
-      console.log("Issue archived in project.");
+      console.log("Issue removed from project.");
   } else {
     console.log("No associated project found for this issue.");
   }

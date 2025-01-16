@@ -24,4 +24,4 @@ jobs:
           OWNER: ${{ github.repository_owner }}
           REPO: ${{ github.event.repository.name }}
           ISSUE_NUMBER: ${{ github.event.issue.number }}
-        run: node .github/scripts/archiveIssuesInDesignProjects.js
+        run: node .github/scripts/removeIssuesFromDesignProjects.js
