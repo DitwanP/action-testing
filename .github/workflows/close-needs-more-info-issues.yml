@@ -9,19 +9,11 @@ permissions:
   issues: write
 
 jobs:
-  close-stale-issues:
+  close-needs-more-info-issues:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 18
-
-      - name: Install Dependencies
-        run: npm install @octokit/rest
 
       - name: Close issue if more info is not provided
         env:
