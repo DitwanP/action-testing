@@ -2,7 +2,8 @@ name: Close Need More Info Issues
 
 on:
   schedule:
-    - cron: "45 22 * * *" # Runs daily at 10:30 PM UTC (2:30 PM PST)
+    - cron: "*/5 * * * *" # Runs every 5 minutes for testing
+    # - cron: "45 22 * * *" # Runs daily at 10:30 PM UTC (2:30 PM PST)
   workflow_dispatch: # Allows manual trigger
 
 permissions:
