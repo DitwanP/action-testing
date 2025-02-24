@@ -6,7 +6,7 @@ const {
 /** @param {import('github-script').AsyncFunctionArguments} AsyncFunctionArguments */
 module.exports = async ({ github, context }) => {
   const { repo, owner } = context.repo;
-  const DAYS_BEFORE_CLOSE = 14; // 2 weeks
+  const DAYS_BEFORE_CLOSE = 0.1; // 2 weeks
 
   try {
     console.log(`Checking for issues with the label: "${planning.needsInfo}" that are stale.`);
@@ -30,10 +30,17 @@ module.exports = async ({ github, context }) => {
       const daysSinceUpdate = (now.getTime() - lastUpdated.getTime()) / (1000 * 60 * 60 * 24);
 
       //remove this later
-      console.log(`Days since update: ${daysSinceUpdate}`);
+      console.log(`Days since update: ${daysSinceUpdate}.tofixed(1)}`);
 
       if (daysSinceUpdate >= DAYS_BEFORE_CLOSE) {
         console.log(`Closing issue #${issue.number} - No updates for ${daysSinceUpdate.toFixed(1)} days`);
+        
+        await github.rest.issues.createComment({
+          owner: owner,
+          repo: repo,
+          issue_number: issue.number,
+          body: "Closing this issue due to inactivity. If this is still an issue, it can be reopened once additional information has been provided.",
+        });
 
         await github.rest.issues.update({
           issue_number: issue.number,
@@ -42,12 +49,6 @@ module.exports = async ({ github, context }) => {
           state: "closed",
         });
 
-        await github.rest.issues.createComment({
-          owner: owner,
-          repo: repo,
-          issue_number: issue.number,
-          body: "Closing this issue due to inactivity. If this is still an issue, it can be reopened once additional information has been provided.",
-        });
       }
     }
 
