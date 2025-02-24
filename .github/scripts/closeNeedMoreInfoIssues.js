@@ -11,20 +11,22 @@ module.exports = async ({ github, context }) => {
     issue: { body, number: issue_number },
   } = payload;
 
-  const LABEL_NAME = "need more info";
   const DAYS_BEFORE_CLOSE = 14; // 2 weeks
 
   try {
-    console.log(`Checking for issues with the label: "${LABEL_NAME}" that are stale.`);
+    console.log(`Checking for issues with the label: "${planning.needsInfo}" that are stale.`);
 
     // Get all issues with the specific label
     const { data: issues } = await github.rest.issues.listForRepo({
       owner: owner,
       repo: repo,
       state: "open",
-      labels: LABEL_NAME,
+      labels: planning.needsInfo,
       per_page: 100,
     });
+
+    //remove this later
+    console.log(`Issues with the label "${planning.needsInfo}":`, issues);
 
     const now = new Date();
 

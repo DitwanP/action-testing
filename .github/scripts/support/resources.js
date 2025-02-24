@@ -26,9 +26,10 @@ const resources = {
     },
     planning: {
       needsMilestone: "needs milestone",
+      needsInfo: "need more info",
       spike: "spike",
       spikeComplete: "spike complete",
-      noChangelogEntry: "no changelog entry"
+      noChangelogEntry: "no changelog entry" 
     },
     priority: {
       low: "p - low",
