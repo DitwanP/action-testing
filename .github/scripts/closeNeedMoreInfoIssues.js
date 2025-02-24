@@ -6,11 +6,6 @@ const {
 /** @param {import('github-script').AsyncFunctionArguments} AsyncFunctionArguments */
 module.exports = async ({ github, context }) => {
   const { repo, owner } = context.repo;
-  const payload = /** @type {import('@octokit/webhooks-types').IssuesEvent} */ (context.payload);
-  const {
-    issue: { body, number: issue_number },
-  } = payload;
-
   const DAYS_BEFORE_CLOSE = 14; // 2 weeks
 
   try {
