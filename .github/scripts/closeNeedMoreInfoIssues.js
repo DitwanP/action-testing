@@ -6,7 +6,7 @@ const {
 /** @param {import('github-script').AsyncFunctionArguments} AsyncFunctionArguments */
 module.exports = async ({ github, context }) => {
   const { repo, owner } = context.repo;
-  const DAYS_BEFORE_CLOSE = 14; // 2 weeks
+  const DAYS_BEFORE_CLOSE = 14;
 
   console.log(`Checking for issues with the label: "${planning.needsInfo}" that are stale.`);
 
@@ -26,7 +26,7 @@ module.exports = async ({ github, context }) => {
     const daysSinceUpdate = Math.round((now.getTime() - lastUpdated.getTime()) / (1000 * 60 * 60 * 24));
 
     //remove this later
-    console.log(`Days since update: ${daysSinceUpdate}.tofixed(1)}`);
+    console.log(`Days since update: ${daysSinceUpdate}`);
 
     if (daysSinceUpdate >= DAYS_BEFORE_CLOSE) {
       console.log(`Closing issue #${issue.number} - No updates for ${Math.round(daysSinceUpdate)} days`);
