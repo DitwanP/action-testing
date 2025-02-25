@@ -7,6 +7,7 @@ const {
 module.exports = async ({ github, context }) => {
   const { repo, owner } = context.repo;
   const DAYS_BEFORE_CLOSE = 14;
+  const MILLISECONDS_IN_A_DAY = 1000 * 60 * 60 * 24;
 
   console.log(`Checking for issues with the label: "${planning.needsInfo}" that are stale.`);
 
@@ -23,7 +24,7 @@ module.exports = async ({ github, context }) => {
 
   for (const issue of issues) {
     const lastUpdated = new Date(issue.updated_at);
-    const daysSinceUpdate = Math.round((now.getTime() - lastUpdated.getTime()) / (1000 * 60 * 60 * 24));
+    const daysSinceUpdate = Math.round((now.getTime() - lastUpdated.getTime()) / MILLISECONDS_IN_A_DAY);
 
     //remove this later
     console.log(`Days since update: ${daysSinceUpdate}`);
