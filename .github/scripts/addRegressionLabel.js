@@ -29,6 +29,7 @@ module.exports = async ({ github, context }) => {
   );
 
   const regressionRegexMatch = body.match(regressionRegex);
+  console.log(`regressionRegexMatch: ${regressionRegexMatch}`);
 
   // If issue does not have "No response" under the regression section then add regression label, otherwise log message.
   if (regressionRegexMatch) {
