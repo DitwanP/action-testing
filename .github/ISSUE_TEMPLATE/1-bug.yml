@@ -12,6 +12,14 @@ body:
         - You are using the latest version, since the issue may already be fixed.
         - There are no [existing issues](/../../issues?q=is%3Aopen+is%3Aissue+label%3Abug) with the same bug report.
             - If there is a duplicate issue, please add a 👍 reaction instead of creating a new one.
+  - type: checkboxes
+    id: existing-issues
+    attributes:
+      label: Check existing issues
+      description: If someone has already opened an issue for what you are experiencing, please add a 👍 reaction to the existing issue instead of creating a new one. For support, please check the [community forum](https://developers.arcgis.com/calcite-design-system/community/).
+      options:
+        - label: I have [checked for existing issues](https://github.com/Esri/calcite-design-system/issues) to avoid duplicates
+          required: true
   - type: textarea
     id: actual
     attributes:
@@ -45,6 +53,18 @@ body:
       placeholder: v0.0.0 # x-release-please-version
     validations:
       required: true
+  - type: dropdown
+    id: is-regression
+    validation:
+      required: true
+    attributes:
+      label: Is this a regression?
+      multiple: false
+      placeholder: Select an option
+      options:
+        - Not applicable or not sure
+        - Yes - this is a regression
+        - No - this is not a regression
   - type: input
     id: regression
     attributes:
