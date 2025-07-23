@@ -55,12 +55,11 @@ body:
       required: true
   - type: dropdown
     id: is-regression
-    validation:
+    validations:
       required: true
     attributes:
       label: Is this a regression?
       multiple: false
-      placeholder: Select an option
       options:
         - Not applicable or not sure
         - Yes - this is a regression
