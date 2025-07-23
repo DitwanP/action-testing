@@ -18,15 +18,7 @@ module.exports = async ({ github, context }) => {
     return;
   }
 
-  const regressionRegex = new RegExp(
-    action === "edited"
-      ? // the way GitHub parses the issue body into plaintext
-        // requires this exact format for edits
-        "(?<=### Regression\?\n\n).+"
-      : // otherwise it depends on the submitter's OS
-        "(?<=### Regression\?[\r\n|\r|\n]{2}).+$",
-    "m",
-  );
+  const regressionRegex = /(?<=### Regression\?[\r\n|\r|\n]{2}).+$/m;
 
   const regressionRegexMatch = body.match(regressionRegex);
 
