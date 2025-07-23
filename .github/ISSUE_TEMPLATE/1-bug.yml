@@ -18,7 +18,7 @@ body:
       label: Check existing issues
       description: If someone has already opened an issue for what you are experiencing, please add a 👍 reaction to the existing issue instead of creating a new one. For support, please check the [community forum](https://developers.arcgis.com/calcite-design-system/community/).
       options:
-        - label: I have [checked for existing issues](https://github.com/Esri/calcite-design-system/issues) to avoid duplicates
+        - label: I have [checked for existing issues](https://github.com/ditwanp/action-testing/issues) to avoid duplicates
           required: true
   - type: textarea
     id: actual
