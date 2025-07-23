@@ -66,9 +66,9 @@ body:
         - Yes - this is a regression
         - No - this is not a regression
   - type: input
-    id: regression
+    id: regression-version
     attributes:
-      label: Regression?
+      label: Regression version
       description: Please provide the last working version if the issue is a regression.
       placeholder: v0.0.0
     validations:
