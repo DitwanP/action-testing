@@ -58,7 +58,8 @@ body:
     validations:
       required: true
     attributes:
-      label: Is this a regression?
+      label: Is this a regression
+      description: Was this behavior working correctly in a previous version?
       multiple: false
       options:
         - Not applicable or not sure
