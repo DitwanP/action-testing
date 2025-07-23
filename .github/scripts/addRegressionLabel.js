@@ -22,26 +22,19 @@ module.exports = async ({ github, context }) => {
 
   const regressionRegexMatch = body.match(regressionRegex);
 
-  console.log(`body: ${body}`);
-  console.log(`regressionRegex: ${regressionRegex}`);
-  console.log(`regressionRegexMatch: ${regressionRegexMatch}`);
-
-  // If issue does not have "No response" under the regression section then add regression label, otherwise log message.
+  // If issue has "_No response_" under the regression section then log and exit, otherwise add regression label.
   if (regressionRegexMatch) {
     const regressionVersion = (regressionRegexMatch && regressionRegexMatch[0] ? regressionRegexMatch[0] : "").trim();
-
-    console.log(`Regression version: ${regressionVersion}`);
-    console.log(`Regex match: ${regressionRegexMatch[0]}`);
   
-    if (regressionVersion !== "No response") {
+    if (regressionVersion === "_No response_") {
+      console.log("No regression version provided, not adding regression label.");
+    } else {
       await github.rest.issues.addLabels({
         issue_number,
         owner,
         repo,
         labels: [bug.regression],
       });
-    } else {
-      console.log("No regression version provided, not adding regression label.");
     }
   } 
 };
