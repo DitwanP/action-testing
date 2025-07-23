@@ -9,7 +9,6 @@ module.exports = async ({ github, context }) => {
 
   const payload = /** @type {import('@octokit/webhooks-types').IssuesEvent} */ (context.payload);
   const {
-    action,
     issue: { body, number: issue_number },
   } = payload;
 
@@ -19,12 +18,10 @@ module.exports = async ({ github, context }) => {
   }
 
   const regressionRegex = /(?<=### Regression\?[\r\n|\r|\n]{2}).+$/m;
-
   const regressionRegexMatch = body.match(regressionRegex);
 
   // If issue has "_No response_" under the regression section then log and exit, otherwise add regression label.
-  if (regressionRegexMatch) {
-    const regressionVersion = (regressionRegexMatch && regressionRegexMatch[0] ? regressionRegexMatch[0] : "").trim();
+    const regressionVersion = (regressionRegexMatch?.[0] || "").trim();
   
     if (regressionVersion === "_No response_") {
       console.log("No regression version provided, not adding regression label.");
@@ -36,5 +33,4 @@ module.exports = async ({ github, context }) => {
         labels: [bug.regression],
       });
     }
-  } 
 };
