@@ -22,9 +22,9 @@ module.exports = async ({ github, context }) => {
     action === "edited"
       ? // the way GitHub parses the issue body into plaintext
         // requires this exact format for edits
-        "(?<=### Regression \r\n\r\n).+"
+        "(?<=### Regression\?\r\n\r\n).+"
       : // otherwise it depends on the submitter's OS
-        "(?<=### Regression[\r\n|\r|\n]{2}).+$",
+        "(?<=### Regression\?[\r\n|\r|\n]{2}).+$",
     "m",
   );
 
