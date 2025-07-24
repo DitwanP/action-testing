@@ -17,7 +17,7 @@ module.exports = async ({ github, context }) => {
     return;
   }
 
-  if (labels?.some((label) => label.name === "bug")) {
+  if (!labels?.some((label) => label.name === "bug")) {
     console.log("Issue does not have the 'bug' label, skipping regression label addition.");
     return;
   }
@@ -28,7 +28,6 @@ module.exports = async ({ github, context }) => {
   // If issue has "_No response_" under the regression section then log and exit, otherwise add regression label.
     const regressionVersion = (regressionRegexMatch?.[0] || "").trim();
 
-    console.log(`Regression version: ${regressionVersion}`);
     if (regressionVersion === "_No response_" || regressionVersion === "") {
       console.log("No regression version provided, not adding regression label.");
     } else {
