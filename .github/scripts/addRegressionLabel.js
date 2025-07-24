@@ -9,13 +9,15 @@ module.exports = async ({ github, context }) => {
 
   const payload = /** @type {import('@octokit/webhooks-types').IssuesEvent} */ (context.payload);
   const {
-    issue: { body, number: issue_number },
+    issue: { body, labels, number: issue_number },
   } = payload;
 
   if (!body) {
     console.log("could not determine the issue body");
     return;
   }
+
+  console.log(`Issue labels: ${JSON.stringify(labels)}`);
 
   const regressionRegex = /(?<=### Regression\?[\r\n|\r|\n]{2}).+$/m;
   const regressionRegexMatch = body.match(regressionRegex);
