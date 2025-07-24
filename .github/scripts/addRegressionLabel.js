@@ -17,7 +17,10 @@ module.exports = async ({ github, context }) => {
     return;
   }
 
-  console.log(`Issue labels: ${JSON.stringify(labels)}`);
+  if (labels?.some((label) => label.name === "bug")) {
+    console.log("Issue does not have the 'bug' label, skipping regression label addition.");
+    return;
+  }
 
   const regressionRegex = /(?<=### Regression\?[\r\n|\r|\n]{2}).+$/m;
   const regressionRegexMatch = body.match(regressionRegex);
