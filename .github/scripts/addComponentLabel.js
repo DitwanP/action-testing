@@ -19,9 +19,11 @@ module.exports = async ({ github, context }) => {
   const whichComponentRegex = /### Which Component(?:\r\n|\r|\n){1,2}([^\r\n]+)/m;
   const whichComponentRegexMatch = body.match(whichComponentRegex);
 
+  console.log("Component regex match:", whichComponentRegexMatch);
+
   // If issue includes "Which Component" line then add or create label, otherwise log message.
   if (whichComponentRegexMatch) {
-    const componentsString = (whichComponentRegexMatch && whichComponentRegexMatch[0] ? whichComponentRegexMatch[0] : "").trim();
+    const componentsString = (whichComponentRegexMatch[1] || "").trim();
 
     if (componentsString !== "N/A") {
       console.log("Components found:", componentsString);
