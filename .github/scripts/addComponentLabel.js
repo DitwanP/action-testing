@@ -55,6 +55,6 @@ module.exports = async ({ github, context }) => {
       };
     };
   } else {
-    console.log(`No Esri team listed on issue #${issue_number}`);
+    console.log(`No components listed on issue #${issue_number}`);
   }
 };
