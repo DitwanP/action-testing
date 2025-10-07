@@ -54,25 +54,128 @@ body:
     validations:
       required: true
   - type: dropdown
-    id: is-regression
+    id: which-component
     validations:
       required: true
     attributes:
       label: Is this a regression
-      description: Was this behavior working correctly in a previous version?
-      multiple: false
+      description: Which Component(s)
+      multiple: true
       options:
-        - Not applicable or not sure
-        - Yes - this is a regression
-        - No - this is not a regression
-  - type: input
-    id: regression-version
-    attributes:
-      label: Regression version
-      description: Please provide the last working version if the issue is a regression.
-      placeholder: v0.0.0
-    validations:
-      required: false
+        - Accordion
+        - Accordion Item
+        - Action
+        - Action Bar
+        - Action Group
+        - Action Menu
+        - Action Pad
+        - Alert
+        - Autocomplete
+        - Autocomplete Item
+        - Autocomplete Item Group
+        - Avatar
+        - Block
+        - Block Group
+        - Block Section
+        - Button
+        - Card
+        - Card Group
+        - Carousel
+        - Carousel Item
+        - Checkbox
+        - Chip
+        - Chip Group
+        - Color Picker
+        - Color Picker Hex Input
+        - Color Picker Swatch
+        - Combobox
+        - Combobox Item
+        - Combobox Item Group
+        - Date Picker
+        - Date Picker Day
+        - Date Picker Month
+        - Date Picker Month Header
+        - Dialog
+        - Dropdown
+        - Dropdown Group
+        - Dropdown Item
+        - Fab
+        - Filter
+        - Flow
+        - Flow Item
+        - Functional
+        - Graph
+        - Handle
+        - Icon
+        - Inline Editable
+        - Input
+        - Input Date Picker
+        - Input Message
+        - Input Number
+        - Input Text
+        - Input Time Picker
+        - Input Time Zone
+        - Label
+        - Link
+        - List
+        - List Item
+        - List Item Group
+        - Loader
+        - Menu
+        - Menu Item
+        - Meter
+        - Modal
+        - Navigation
+        - Navigation Logo
+        - Navigation User
+        - Notice
+        - Option
+        - Option Group
+        - Pagination
+        - Panel
+        - Popover
+        - Progress
+        - Radio Button
+        - Radio Button Group
+        - Rating
+        - Scrim
+        - Segmented Control
+        - Segmented Control Item
+        - Select
+        - Sheet
+        - Shell
+        - Shell Center Row
+        - Shell Panel
+        - Slider
+        - Sort Handle
+        - Sortable List
+        - Split Button
+        - Stack
+        - Stepper
+        - Stepper Item
+        - Swatch
+        - Swatch Group
+        - Switch
+        - Tab
+        - Tab Nav
+        - Tab Title
+        - Table
+        - Table Cell
+        - Table Header
+        - Table Row
+        - Tabs
+        - Text Area
+        - Tile
+        - Tile Group
+        - Tile Select
+        - Tile Select Group
+        - Time Picker
+        - Tip
+        - Tip Group
+        - Tip Manager
+        - Tooltip
+        - Tree
+        - Tree Item
   - type: textarea
     id: relevant
     attributes:
