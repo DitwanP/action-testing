@@ -58,8 +58,8 @@ body:
     validations:
       required: true
     attributes:
-      label: Is this a regression
-      description: Which Component(s)
+      label: Which Component(s)
+      description: Which component(s) are related to this issue? (Select all that apply).
       multiple: true
       options:
         - Accordion
