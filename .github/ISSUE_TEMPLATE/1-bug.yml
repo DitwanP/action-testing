@@ -58,10 +58,11 @@ body:
     validations:
       required: true
     attributes:
-      label: Which Component(s)
+      label: Which Component
       description: Which component(s) are related to this issue? (Select all that apply).
       multiple: true
       options:
+        - N/A
         - Accordion
         - Accordion Item
         - Action

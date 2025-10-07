@@ -1,0 +1,60 @@
+// @ts-check
+const { createLabelIfMissing } = require("./support/utils");
+
+/** @param {import('github-script').AsyncFunctionArguments} AsyncFunctionArguments */
+module.exports = async ({ github, context }) => {
+  const { repo, owner } = context.repo;
+
+  const payload = /** @type {import('@octokit/webhooks-types').IssuesEvent} */ (context.payload);
+  const {
+    action,
+    issue: { body, number: issue_number },
+  } = payload;
+
+  if (!body) {
+    console.log("could not determine the issue body");
+    return;
+  }
+
+  const whichComponentRegex = new RegExp(
+    action === "edited"
+      ? // the way GitHub parses the issue body into plaintext
+        // requires this exact format for edits
+        "(?<=### Which Component\r\n\r\n).+"
+      : // otherwise it depends on the submitter's OS
+        "(?<=### Which Component[\r\n|\r|\n]{2}).+$",
+    "m",
+  );
+
+  const whichComponentRegexMatch = body.match(whichComponentRegex);
+
+  // If issue includes "Which Component" line then add or create label, otherwise log message.
+  if (whichComponentRegexMatch) {
+    const componentsString = (whichComponentRegexMatch && whichComponentRegexMatch[0] ? whichComponentRegexMatch[0] : "").trim();
+
+    if (componentsString !== "N/A") {
+      console.log("Components found:", componentsString);
+      const componentsList = componentsString.split(", ").map((component) => `c-${component}`.replace(" ", "-").toLowerCase());
+      console.log("Components list:", componentsList);
+
+      for (const component of componentsList) {
+        await createLabelIfMissing({
+          github,
+          context,
+          label: component,
+          color: "1d76db",
+          description: `Issues that pertain to the calcite-${component.substring(2)} component`,
+        });
+    
+        await github.rest.issues.addLabels({
+          issue_number,
+          owner,
+          repo,
+          labels: [component],
+        });
+      };
+    };
+  } else {
+    console.log(`No Esri team listed on issue #${issue_number}`);
+  }
+};
