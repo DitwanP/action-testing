@@ -16,16 +16,7 @@ module.exports = async ({ github, context }) => {
     return;
   }
 
-  const whichComponentRegex = new RegExp(
-    action === "edited"
-      ? // the way GitHub parses the issue body into plaintext
-        // requires this exact format for edits
-        "(?<=### Which Component\r\n\r\n).+"
-      : // otherwise it depends on the submitter's OS
-        "(?<=### Which Component[\r\n|\r|\n]{2}).+$",
-    "m",
-  );
-
+  const whichComponentRegex = /### Which Component(?:\r\n|\r|\n){1,2}([^\r\n]+)/m;
   const whichComponentRegexMatch = body.match(whichComponentRegex);
 
   // If issue includes "Which Component" line then add or create label, otherwise log message.
