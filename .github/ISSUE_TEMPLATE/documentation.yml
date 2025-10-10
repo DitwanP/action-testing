@@ -1,0 +1,139 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-issue-forms.json
+name: Documentation
+description: Report documentation problems or suggest additions.
+labels: ["documentation"]
+assignees:
+  - ditwanp
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for logging an issue, I appreciate the feedback! Please confirm the following before continuing:
+        - You are using the latest version, since the issue may already be fixed.
+        - There are no [existing issues](/../../issues?q=is%3Aopen+is%3Aissue+label%3Adocumentation) with the documentation request/problem.
+            - If there is a duplicate issue, please add a 👍 reaction instead of creating a new one.
+  - type: dropdown
+    id: component
+    validations:
+      required: false
+    attributes:
+      label: Which Component
+      description: Which component(s) are related to this issue? (Select all that apply).
+      multiple: true
+      options:
+        - N/A
+        - Accordion
+        - Accordion Item
+        - Action
+        - Action Bar
+        - Action Group
+        - Action Pad
+        - Alert
+        - Autocomplete
+        - Autocomplete Item
+        - Avatar
+        - Block
+        - Block Group
+        - Block Section
+        - Button
+        - Card
+        - Card Group
+        - Carousel
+        - Carousel Item
+        - Checkbox
+        - Chip
+        - Chip Group
+        - Color Picker
+        - Combobox
+        - Combobox Item
+        - Combobox Item Group
+        - Date Picker
+        - Dialog
+        - Dropdown
+        - Dropdown Group
+        - Dropdown Item
+        - Fab
+        - Filter
+        - Flow
+        - Flow Item
+        - Icon
+        - Inline Editable
+        - Input
+        - Input Date Picker
+        - Input Message
+        - Input Number
+        - Input Text
+        - Input Time Picker
+        - Input Time Zone
+        - Label
+        - Link
+        - List
+        - List Item
+        - List Item Group
+        - Loader
+        - Menu
+        - Menu Item
+        - Meter
+        - Modal
+        - Navigation
+        - Navigation Logo
+        - Navigation User
+        - Notice
+        - Option
+        - Option Group
+        - Pagination
+        - Panel
+        - Popover
+        - Progress
+        - Radio Button
+        - Radio Button Group
+        - Rating
+        - Scrim
+        - Segmented Control
+        - Segmented Control Item
+        - Select
+        - Sheet
+        - Shell
+        - Shell Center Row
+        - Shell Panel
+        - Slider
+        - Split Button
+        - Stepper
+        - Stepper Item
+        - Swatch
+        - Swatch Group
+        - Switch
+        - Tab
+        - Tab Nav
+        - Tab Title
+        - Table
+        - Table Cell
+        - Table Header
+        - Table Row
+        - Tabs
+        - Text Area
+        - Tile
+        - Tile Group
+        - Tile Select
+        - Tile Select Group
+        - Time Picker
+        - Tip
+        - Tip Group
+        - Tip Manager
+        - Tooltip
+        - Tree
+        - Tree Item
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: What needs to be added or fixed?
+    validations:
+      required: true
+  - type: textarea
+    id: resources
+    attributes:
+      label: Resources
+      description: Any other helpful information, including examples or suggestions.
+    validations:
+      required: false
