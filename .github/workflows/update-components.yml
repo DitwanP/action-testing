@@ -18,10 +18,12 @@ jobs:
       - name: Run updater
         run: |
           node .github/scripts/updateIssueTemplateComponents.js
-      - name: Commit changes
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add .github/ISSUE_TEMPLATE/1-bug.yml
-          git commit -m "chore: update issue template component lists" || echo "No changes to commit"
-          git push || echo "Push failed"
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "chore: update issue template component lists"
+          branch: update/issue-template-components
+          title: "chore: update issue template component lists"
+          body: Automated update of component lists in issue templates
+          labels: chore

@@ -38,12 +38,12 @@ function main() {
   const folders = componentFolders.filter((name) => !exclude.has(name));
 
   const templateDir = path.join(process.cwd(), '.github', 'ISSUE_TEMPLATE');
-  const allFiles = fs.readdirSync(templateDir).filter((f) => f.endsWith('.yml') || f.endsWith('.yaml'));
+  const allFiles = fs.readdirSync(templateDir);
   // Only update these template types
   const targetPattern = /bug|accessibility|documentation|enhancement/i;
   const files = allFiles.filter((f) => targetPattern.test(f));
   if (files.length === 0) {
-    console.log('No target templates (bug/accessibility/documentation) found in', templateDir);
+    console.log('No templates for bug, accessibility, documentation, or enhancement found in', templateDir);
     return;
   }
   console.log('Will update templates:', files.join(', '));
@@ -53,76 +53,62 @@ function main() {
     const fullPath = path.join(templateDir, file);
     let content = fs.readFileSync(fullPath, 'utf8');
 
-    // Parse by lines and look for the dropdown block that has `id: component`.
+    // Parse by lines and look for the input that has `id: which-component`.
     const lines = content.split(/\r?\n/);
     const outLines = [...lines];
 
-    // scan for blocks starting with '  - type: dropdown'
-    let i = 0;
+    // find the "which-component" id line
+    const whichComponentIndex = lines.findIndex((line) => /^\s*id:\s*which-component\s*$/.test(line));
+
     let changed = false;
-    while (i < lines.length) {
-      const line = lines[i];
-      if (/^\s{2}- type:\s*dropdown\s*$/.test(line)) {
-        // find block end (next top-level body item) or EOF
-        const blockStart = i;
-        let j = i + 1;
-        while (j < lines.length && !/^\s{2}- type:/.test(lines[j])) {
-          j++;
-        }
-        const blockEnd = j; // exclusive
-
-        // check if this block contains 'id: component' (with any indentation)
-        const blockSlice = lines.slice(blockStart, blockEnd);
-        const hasIdComponent = blockSlice.some((ln) => /^\s*id:\s*component\s*$/.test(ln));
-        if (hasIdComponent) {
-          // find the options: line inside the block
-          const optionsIndexInBlock = blockSlice.findIndex((ln) => /^\s*options:\s*$/.test(ln));
-          if (optionsIndexInBlock === -1) {
-            console.error(`No options: found in dropdown block for file ${file}, skipping block`);
-            i = blockEnd;
-            continue;
-          }
-
-          const optionsLineIndex = blockStart + optionsIndexInBlock;
-          const optionsIndentMatch = lines[optionsLineIndex].match(/^(\s*)/);
-          const optionsIndent = optionsIndentMatch ? optionsIndentMatch[1].length : 0;
-
-          // determine where the options list ends: first line after optionsLineIndex that has indent <= optionsIndent and is not empty
-          let k = optionsLineIndex + 1;
-          while (k < blockEnd) {
-            const l = lines[k];
-            const leading = l.match(/^(\s*)/)[1].length;
-            if (l.trim() === '') {
-              k++;
-              continue;
-            }
-            if (leading <= optionsIndent) break;
-            k++;
-          }
-
-          // build new options lines with same indentation
-          const indent = ' '.repeat(optionsIndent);
-          const newOptionsLines = [];
-          newOptionsLines.push(indent + 'options:');
-          const optionIndent = indent + '  ';
-          newOptionsLines.push(optionIndent + '- N/A');
-          for (const name of folders) {
-            newOptionsLines.push(optionIndent + '- ' + titleize(name));
-          }
-
-          // replace in outLines from optionsLineIndex .. k-1
-          outLines.splice(optionsLineIndex, k - optionsLineIndex, ...newOptionsLines);
-          // update lines as well for further scanning
-          lines.splice(optionsLineIndex, k - optionsLineIndex, ...newOptionsLines);
-          changed = true;
-          // advance i to just after the updated block
-          i = blockStart + newOptionsLines.length;
-          continue;
-        }
-        i = blockEnd;
+    if (whichComponentIndex !== -1) {
+      // find the next line with "options:" under "which-component"
+      let i = whichComponentIndex + 1;
+      while (i < lines.length && !/^\s*options:\s*$/.test(lines[i])) i++;
+      const optionsLineIndex = i;
+      if (optionsLineIndex >= lines.length) {
+        console.error(`No options: line found after which-component in ${file}, skipping`);
         continue;
       }
-      i++;
+
+      const optionsIndentMatch = lines[optionsLineIndex].match(/^(\s*)/);
+      const optionsIndent = optionsIndentMatch ? optionsIndentMatch[1].length : 0;
+
+      // determine where the options list ends: scan downward and include only contiguous list items and blank lines
+      // stop when we encounter the next '- type:' line (start of next input) or a non-list, non-blank line
+      let k = optionsLineIndex + 1;
+      while (k < lines.length) {
+        const trimmed = lines[k].trim();
+        // if we hit the next input marker '- type:' stop — this preserves the '- type:' line
+        if (/^\-\s*type:/.test(trimmed)) break;
+        if (trimmed === '') {
+          k++; // allow blank lines within the options list
+          continue;
+        }
+        // list items start with '- ' after trimming
+        if (trimmed.startsWith('- ')) {
+          k++;
+          continue;
+        }
+        break; // stop at the first non-list, non-blank line
+      }
+
+      // build new options lines with same indentation
+      const indent = ' '.repeat(optionsIndent);
+      const newOptionsLines = [];
+      newOptionsLines.push(indent + 'options:');
+      const optionIndent = indent + '  ';
+      newOptionsLines.push(optionIndent + '- N/A');
+      for (const name of folders) {
+        newOptionsLines.push(optionIndent + '- ' + titleize(name));
+      }
+
+      // replace in outLines from optionsLineIndex .. k-1
+      outLines.splice(optionsLineIndex, k - optionsLineIndex, ...newOptionsLines);
+      // update lines as well for any further processing
+      lines.splice(optionsLineIndex, k - optionsLineIndex, ...newOptionsLines);
+      changed = true;
+
     }
 
     if (changed) {

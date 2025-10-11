@@ -21,7 +21,7 @@ body:
         - label: I have [checked for existing issues](https://github.com/ditwanp/action-testing/issues) to avoid duplicates
           required: true
   - type: dropdown
-    id: component
+    id: which-component
     validations:
       required: false
     attributes:

@@ -11,7 +11,7 @@ body:
         - label: I have [checked for existing issues](https://github.com/ditwanp/action-testing/issues) to avoid duplicates and reviewed the [Accessibility page](https://developers.arcgis.com/calcite-design-system/foundations/accessibility) for guidance.
           required: true
   - type: dropdown
-    id: component
+    id: which-component
     validations:
       required: false
     attributes:

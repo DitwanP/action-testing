@@ -13,7 +13,7 @@ body:
         - There are no [existing issues](/../../issues?q=is%3Aopen+is%3Aissue+label%3Adocumentation) with the documentation request/problem.
             - If there is a duplicate issue, please add a 👍 reaction instead of creating a new one.
   - type: dropdown
-    id: component
+    id: which-component
     validations:
       required: false
     attributes:
