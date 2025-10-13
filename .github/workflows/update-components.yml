@@ -19,11 +19,12 @@ jobs:
         run: |
           node .github/scripts/updateIssueTemplateComponents.js
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v5
+        uses: peter-evans/create-pull-request@v7
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: "chore: update issue template component lists"
           branch: update/issue-template-components
           title: "chore: update issue template component lists"
           body: Automated update of component lists in issue templates
-          labels: chore
+          labels: chore, skip visual snapshots
+          reviewers: ditwanp
