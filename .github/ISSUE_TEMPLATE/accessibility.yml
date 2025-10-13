@@ -20,6 +20,7 @@ body:
       multiple: true
       options:
         - N/A
+        - A Test Component
         - A Test Component Three
         - A Test Component Two
         - Accordion
