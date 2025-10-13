@@ -22,6 +22,8 @@ body:
       multiple: true
       options:
         - N/A
+        - A Test Component Three
+        - A Test Component Two
         - Accordion
         - Accordion Item
         - Action
