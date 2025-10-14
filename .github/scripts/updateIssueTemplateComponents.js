@@ -43,7 +43,7 @@ function main() {
     const fullPath = path.join(templateDir, file);
     const content = fs.readFileSync(fullPath, 'utf8');
 
-    // Parse by lines and look for the input that has `id: which-component`.
+    // Parse by lines and look for the input that has `id: which-component`
     const lines = content.split(/\r?\n/);
     const outputLines = [...lines];
 
@@ -69,14 +69,13 @@ function main() {
         componentsListEndIdx++;
       }
 
-      // Get indentation from options line so we don't change any user formatting there.
+      // Get indentation from options line so we don't change any user formatting there
       const indentMatch = lines[componentOptionsLineIdx].match(/^(\s*)/);
       const optionsLineIndentation = indentMatch[1];
       const componentListIndent = optionsLineIndentation + "  ";
 
-      // Build the new option item lines (do NOT recreate the options: header)
+      // Build the new component option item lines, populate the constant options first
       const newOptionItems = [];
-      // Always include these helper options first
       newOptionItems.push(componentListIndent + '- N/A');
       newOptionItems.push(componentListIndent + '- Unknown / Not Sure');
       for (const componentName of filteredComponentFolders) {
