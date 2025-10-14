@@ -31,6 +31,9 @@ body:
       options:
         - N/A
         - Unknown / Not Sure
+        - A Test Component
+        - A Test Component Three
+        - A Test Component Two
         - Accordion
         - Accordion Item
         - Action
