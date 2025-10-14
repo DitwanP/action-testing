@@ -41,7 +41,7 @@ function main() {
 
   for (const file of files) {
     const fullPath = path.join(templateDir, file);
-    let content = fs.readFileSync(fullPath, 'utf8');
+    const content = fs.readFileSync(fullPath, 'utf8');
 
     // Parse by lines and look for the input that has `id: which-component`.
     const lines = content.split(/\r?\n/);
@@ -61,10 +61,7 @@ function main() {
         continue;
       }
 
-      const optionsIndentMatch = lines[componentOptionsLineIdx].match(/^(\s*)/);
-      const optionsIndent = optionsIndentMatch ? optionsIndentMatch[1].length : 0;
-
-      // determine where the options list ends: scan downward and stop when we encounter the next '- type:' line (start of next input)
+      // Determine where the options list ends: scan downward and stop at the next '- type:' line (start of next input)
       let componentsListEndIdx = componentOptionsLineIdx + 1;
       while (componentsListEndIdx < lines.length) {
         // stop when we hit the next input marker '- type:'
@@ -72,12 +69,10 @@ function main() {
         componentsListEndIdx++;
       }
 
-      // Preserve the existing 'options:' line and replace only the option items in-place.
-      // Capture the original options line so we don't change any user formatting there.
-      const originalOptionsLine = lines[componentOptionsLineIdx];
-      const originalIndentMatch = originalOptionsLine.match(/^(\s*)/);
-      const baseIndent = originalIndentMatch ? originalIndentMatch[1] : '';
-      const componentListIndent = baseIndent + '  ';
+      // Get indentation from options line so we don't change any user formatting there.
+      const indentMatch = lines[componentOptionsLineIdx].match(/^(\s*)/);
+      const optionsLineIndentation = indentMatch[1];
+      const componentListIndent = optionsLineIndentation + "  ";
 
       // Build the new option item lines (do NOT recreate the options: header)
       const newOptionItems = [];
@@ -93,8 +88,6 @@ function main() {
       const replaceStart = componentOptionsLineIdx + 1;
       const replaceCount = componentsListEndIdx - replaceStart;
       outputLines.splice(replaceStart, replaceCount, ...newOptionItems);
-      // update lines as well for any further processing
-      lines.splice(replaceStart, replaceCount, ...newOptionItems);
       changed = true;
     }
 
