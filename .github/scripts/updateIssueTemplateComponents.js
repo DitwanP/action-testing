@@ -25,7 +25,7 @@ function main() {
     .sort((left, right) => left.localeCompare(right, 'en'));
 
   // Exclude non user facing component folders (blacklist)
-  const folders = componentFolders.filter((name) => !componentBlacklist.has(name));
+  const filteredComponentFolders = componentFolders.filter((name) => !componentBlacklist.has(name));
   const templateDir = path.join(process.cwd(), '.github', 'ISSUE_TEMPLATE');
   const allFiles = fs.readdirSync(templateDir);
 
@@ -72,20 +72,29 @@ function main() {
         componentsListEndIdx++;
       }
 
-      // build new options lines with same indentation
-      const indent = ' '.repeat(optionsIndent);
-      const newOptionsLines = [];
-      newOptionsLines.push(indent + 'options:');
-      const optionIndent = indent + '  ';
-      newOptionsLines.push(optionIndent + '- N/A');
-      for (const name of folders) {
-        newOptionsLines.push(optionIndent + '- ' + titleize(name));
+      // Preserve the existing 'options:' line and replace only the option items in-place.
+      // Capture the original options line so we don't change any user formatting there.
+      const originalOptionsLine = lines[componentOptionsLineIdx];
+      const originalIndentMatch = originalOptionsLine.match(/^(\s*)/);
+      const baseIndent = originalIndentMatch ? originalIndentMatch[1] : '';
+      const componentListIndent = baseIndent + '  ';
+
+      // Build the new option item lines (do NOT recreate the options: header)
+      const newOptionItems = [];
+      // Always include these helper options first
+      newOptionItems.push(componentListIndent + '- N/A');
+      newOptionItems.push(componentListIndent + '- Unknown / Not Sure');
+      for (const componentName of filteredComponentFolders) {
+        newOptionItems.push(componentListIndent + '- ' + titleize(componentName));
       }
 
-      // replace in outputLines from componentOptionsLineIdx to componentsListEndIdx-1
-      outputLines.splice(componentOptionsLineIdx, componentsListEndIdx - componentOptionsLineIdx, ...newOptionsLines);
+      // Replace the lines between the "options:"" line and the next input marker with the item lines
+      // componentOptionsLineIdx points at the 'options:' line, so start replacing at +1
+      const replaceStart = componentOptionsLineIdx + 1;
+      const replaceCount = componentsListEndIdx - replaceStart;
+      outputLines.splice(replaceStart, replaceCount, ...newOptionItems);
       // update lines as well for any further processing
-      lines.splice(componentOptionsLineIdx, componentsListEndIdx - componentOptionsLineIdx, ...newOptionsLines);
+      lines.splice(replaceStart, replaceCount, ...newOptionItems);
       changed = true;
     }
 
@@ -93,7 +102,7 @@ function main() {
       const newContent = outputLines.join('\n');
       if (newContent !== content) {
         fs.writeFileSync(fullPath, newContent, 'utf8');
-        console.log('Updated', file, 'with', folders.length, 'components');
+        console.log('Updated', file, 'with', filteredComponentFolders.length, 'components');
         updatedCount++;
       }
     }
