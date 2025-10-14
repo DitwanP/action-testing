@@ -33,12 +33,12 @@ module.exports = async ({ github, context }) => {
   }
 
   // Match x.y.z with an optional prerelease extension of "-next.N".
-  // Example matches: 1.2.3, v1.2.3, 3.4.0-next.13
+  // Example matches: 1.0.0, v1.0.0, 1.0.0-next.13, Yes was working v1.2.3-next.4, please fix!
   const semVerRegex = /\bv?(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)(?:-next\.(?:0|[1-9]\d*))?\b/i;
 
   const containsValidVersion = semVerRegex.test(regressionResponse);
   if (!containsValidVersion) {
-    console.log("No valid version (x.y.z or x.y.z-next.N) found, not adding regression label.");
+    console.log("No valid version (e.g., 1.0.0 or 1.0.0-next.12) found, not adding regression label.");
     return;
   }
 
