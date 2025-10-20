@@ -23,7 +23,7 @@ module.exports = async ({ github, context }) => {
     return;
   }
 
-  const regressionRegex = /(?<=### Regression Version\?[\r\n|\r|\n]{2}).+$/m;
+  const regressionRegex = /(?<=### Regression\?[\r\n|\r|\n]{2}).+$/m;
   const regressionRegexMatch = body.match(regressionRegex);
   const regressionResponse = (regressionRegexMatch?.[0] || "").trim();
 
