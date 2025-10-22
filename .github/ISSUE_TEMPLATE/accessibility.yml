@@ -13,7 +13,7 @@ body:
   - type: dropdown
     id: which-component
     validations:
-      required: false
+      required: true
     attributes:
       label: Which Component
       description: Which component(s) are related to this issue? (Select all that apply).
