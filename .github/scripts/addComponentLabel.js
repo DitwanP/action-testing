@@ -23,7 +23,7 @@ module.exports = async ({ github, context }) => {
   if (whichComponentRegexMatch) {
     const componentsString = (whichComponentRegexMatch[1] || "").trim();
 
-    if (componentsString !== "N/A") {
+    if (componentsString !== "N/A" && componentsString !== "Unknown / Not Sure") {
       const componentsList = componentsString.split(", ").map((component) => `c-${component}`.replace(" ", "-").toLowerCase());
       for (const component of componentsList) {
         await createLabelIfMissing({
