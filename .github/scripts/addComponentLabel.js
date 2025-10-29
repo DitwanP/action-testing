@@ -27,7 +27,9 @@ module.exports = async ({ github, context }) => {
     const filteredComponents = componentsString
       .split(",").map((component) => component.trim())
       .filter((component) => {
-        component !== OPTION_NA && component !== OPTION_UNKNOWN && component !== `${OPTION_NA}, ${OPTION_UNKNOWN}`
+        return (
+          component !== OPTION_NA && component !== OPTION_UNKNOWN && component !== `${OPTION_NA}, ${OPTION_UNKNOWN}`
+        );
     });
 
     if (filteredComponents.length > 0) {
