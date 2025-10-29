@@ -22,6 +22,7 @@ body:
       options:
         - N/A
         - Unknown / Not Sure
+        - A Test Component
         - Accordion
         - Accordion Item
         - Action
