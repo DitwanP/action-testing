@@ -92,7 +92,7 @@ module.exports = async ({ github, context }) => {
     try {
       await github.rest.issues.createComment({
         ...issueProps,
-        body: `Issue #${issueNumber} has been closed and may have unblocked this issue.\n\ncc @ditwanp`,
+        body: `Issue #${issueNumber} has been closed and is no longer blocking this issue.\n\ncc @ditwanp for re-evaluation.`,
       });
       console.log(`Commented on issue #${blockedIssueNumber}.`);
     } catch (error) {
