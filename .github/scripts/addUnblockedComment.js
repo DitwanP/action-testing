@@ -53,26 +53,6 @@ module.exports = async ({ github, context }) => {
     }
   }
 
-  // function addFromBody() {
-  //   const issueBody = payload.issue?.body || "";
-  //   const blockedIssuesLineRegex = /Blocked issues:\s*([^\n]+)/i;
-  //   const issueRegex = /#(\d+)|https:\/\/github\.com\/[^\/]+\/[^\/]+\/issues\/(\d+)/g;
-
-  //   const blockedIssuesLineMatch = issueBody.match(blockedIssuesLineRegex);
-  //   if (!blockedIssuesLineMatch) {
-  //     return;
-  //   }
-
-  //   const blockedLine = blockedIssuesLineMatch[1];
-  //   let match;
-  //   while ((match = issueRegex.exec(blockedLine)) !== null) {
-  //     const matchedIssueNumber = Number(match[1] || match[2]);
-  //     if (matchedIssueNumber && matchedIssueNumber !== issueNumber) {
-  //       blockedIssueNumbers.add(matchedIssueNumber);
-  //     }
-  //   }
-  // }
-
   await getBlockedIssueNumbers();
 
   if (blockedIssueNumbers.size === 0) {

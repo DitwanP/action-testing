@@ -1,0 +1,19 @@
+name: Add issue blocking relationships
+on:
+  workflow_dispatch:
+jobs:
+  add-blocking-relationships:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: "Adding blocking relationships from issue descriptions"
+        uses: actions/github-script@v7
+        env:
+          ISSUE_VERIFIERS: ${{secrets.ISSUE_VERIFIERS}}
+        with:
+          script: |
+            const action = require('${{ github.workspace }}/.github/scripts/addBlockingRelationships.js')
+            await action({github, context})
