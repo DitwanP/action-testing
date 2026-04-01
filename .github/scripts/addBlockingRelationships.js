@@ -27,7 +27,9 @@ module.exports = async ({ github, context }) => {
   }
 
   const blockedLine = blockedIssuesLineMatch[1];
+
   let match;
+  
   while ((match = issueRegex.exec(blockedLine)) !== null) {
     const matchedIssueNumber = Number(match[1] || match[2]);
     if (matchedIssueNumber && matchedIssueNumber !== issueNumber) {
@@ -62,7 +64,6 @@ module.exports = async ({ github, context }) => {
     }
   }
 
-  // await getBlockedIssueIds();
   await addRelationshipsToBlockedIssues();
 
   console.log("Finished adding blocked relationships.");
