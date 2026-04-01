@@ -14,6 +14,7 @@ module.exports = async ({ github, context }) => {
   }
 
   const issueNumber = payload.issue.number;
+  const issueId = payload.issue.id;
   const blockedIssueNumbers = new Set();
   const blockedIssueIds = new Set();
 
@@ -35,43 +36,43 @@ module.exports = async ({ github, context }) => {
     }
   }
 
-  async function getBlockedIssueIds() {
-    for (const blockedIssueNumber of blockedIssueNumbers) {
-      try {
-        console.log(`Getting blocked issue IDs for issue #${blockedIssueNumber}...`);
-        const blockedIssue = await github.request(
-          "GET /repos/{owner}/{repo}/issues/{issue_number}",
-          {
-            owner,
-            repo,
-            issue_number: blockedIssueNumber,
-          }
-        );
-        blockedIssueIds.add(blockedIssue.data.id);
-      } catch (error) {
-        const message =
-          error && typeof error === "object" && "message" in error
-            ? error.message
-            : String(error);
-        console.log(
-          "Could not get blocked issue IDs using REST API:",
-          message
-        );
-      }
-    }
-  }
+  // async function getBlockedIssueIds() {
+  //   for (const blockedIssueNumber of blockedIssueNumbers) {
+  //     try {
+  //       console.log(`Getting blocked issue IDs for issue #${blockedIssueNumber}...`);
+  //       const blockedIssue = await github.request(
+  //         "GET /repos/{owner}/{repo}/issues/{issue_number}",
+  //         {
+  //           owner,
+  //           repo,
+  //           issue_number: blockedIssueNumber,
+  //         }
+  //       );
+  //       blockedIssueIds.add(blockedIssue.data.id);
+  //     } catch (error) {
+  //       const message =
+  //         error && typeof error === "object" && "message" in error
+  //           ? error.message
+  //           : String(error);
+  //       console.log(
+  //         "Could not get blocked issue IDs using REST API:",
+  //         message
+  //       );
+  //     }
+  //   }
+  // }
 
   async function addRelationshipsToBlockedIssues() {
-    for (const blockedIssueId of blockedIssueIds) {
+    for (const blockedIssueNumber of blockedIssueNumbers) {
       try {
-        console.log(`Adding blocking relationship from issue #${issueNumber} to issue with ID#${blockedIssueId}...`);
+        console.log(`Adding blocking relationship to issue #${blockedIssueNumber} from issue #${issueNumber}...`);
         await github.request(
           "POST /repos/{owner}/{repo}/issues/{issue_number}/dependencies/blocked_by",
           {
             owner,
             repo,
-            issue_number: issueNumber,
-            issue_id: blockedIssueId,
+            issue_number: blockedIssueNumber,
+            issue_id: issueId,
           }
         );
 
@@ -88,7 +89,7 @@ module.exports = async ({ github, context }) => {
     }
   }
 
-  await getBlockedIssueIds();
+  // await getBlockedIssueIds();
   await addRelationshipsToBlockedIssues();
 
   console.log("Finished adding blocked relationships.");
