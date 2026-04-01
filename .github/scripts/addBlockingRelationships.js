@@ -37,6 +37,7 @@ module.exports = async ({ github, context }) => {
   async function addRelationshipsToBlockedIssues() {
     for (const blockedIssueNumber of blockedIssueNumbers) {
       try {
+        console.log(`Adding blocking relationship from issue #${issueNumber} to issue #${blockedIssueNumber}...`);
         await github.request(
           "POST /repos/{owner}/{repo}/issues/{issue_number}/dependencies/blocked_by",
           {
