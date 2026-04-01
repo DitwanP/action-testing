@@ -1,6 +1,25 @@
 name: Add issue blocking relationships
 on:
+  issues:
+    types:
+      [
+        opened,
+        edited,
+        closed,
+        reopened,
+        labeled,
+        unlabeled,
+        milestoned,
+        demilestoned,
+        assigned,
+        unassigned,
+      ]
   workflow_dispatch:
+    inputs:
+      issue_number:
+        type: number
+        description: "The target issue number for adding blocking relationships."
+        required: true
 jobs:
   add-blocking-relationships:
     runs-on: ubuntu-latest
