@@ -55,7 +55,7 @@ module.exports = async ({ github, context }) => {
             ? error.message
             : String(error);
         console.log(
-          "Could not add blocking issue relationships using REST API:",
+          "Could not add blocking issue relationships:",
           message
         );
       }
