@@ -15,12 +15,11 @@ module.exports = async ({ github, context }) => {
 
   const issueNumber = payload.issue.number;
   const issueId = payload.issue.id;
-  const blockedIssueNumbers = new Set();
-  const blockedIssueIds = new Set();
-
   const issueBody = payload.issue?.body || "";
+  
   const blockedIssuesLineRegex = /Blocked issues:\s*([^\n]+)/i;
   const issueRegex = /#(\d+)|https:\/\/github\.com\/[^\/]+\/[^\/]+\/issues\/(\d+)/g;
+  const blockedIssueNumbers = new Set();
 
   const blockedIssuesLineMatch = issueBody.match(blockedIssuesLineRegex);
   if (!blockedIssuesLineMatch) {
@@ -36,36 +35,10 @@ module.exports = async ({ github, context }) => {
     }
   }
 
-  // async function getBlockedIssueIds() {
-  //   for (const blockedIssueNumber of blockedIssueNumbers) {
-  //     try {
-  //       console.log(`Getting blocked issue IDs for issue #${blockedIssueNumber}...`);
-  //       const blockedIssue = await github.request(
-  //         "GET /repos/{owner}/{repo}/issues/{issue_number}",
-  //         {
-  //           owner,
-  //           repo,
-  //           issue_number: blockedIssueNumber,
-  //         }
-  //       );
-  //       blockedIssueIds.add(blockedIssue.data.id);
-  //     } catch (error) {
-  //       const message =
-  //         error && typeof error === "object" && "message" in error
-  //           ? error.message
-  //           : String(error);
-  //       console.log(
-  //         "Could not get blocked issue IDs using REST API:",
-  //         message
-  //       );
-  //     }
-  //   }
-  // }
-
   async function addRelationshipsToBlockedIssues() {
     for (const blockedIssueNumber of blockedIssueNumbers) {
       try {
-        console.log(`Adding blocking relationship to issue #${blockedIssueNumber} from issue #${issueNumber}...`);
+        console.log(`Marking issue #${issueNumber} as blocking issue #${blockedIssueNumber}...`);
         await github.request(
           "POST /repos/{owner}/{repo}/issues/{issue_number}/dependencies/blocked_by",
           {
