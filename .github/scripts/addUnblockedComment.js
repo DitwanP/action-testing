@@ -1,7 +1,4 @@
 // @ts-check
-// When a blocking issue is closed:
-// 1. Uses the REST API to find issues blocked by this issue.
-// 2. Leaves a comment on each dependent issue and removes the "blocked" label IF there's no other blocked by relationships.
 
 /** @param {import('github-script').AsyncFunctionArguments} AsyncFunctionArguments */
 module.exports = async ({ github, context }) => {
