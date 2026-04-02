@@ -17,4 +17,4 @@ jobs:
         with:
           script: |
             const action = require('${{ github.workspace }}/.github/scripts/addUnblockedComment.js')
-            await action({github, context})
+            await action({github, context, core})

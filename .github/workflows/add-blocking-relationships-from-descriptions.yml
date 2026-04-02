@@ -35,4 +35,4 @@ jobs:
         with:
           script: |
             const action = require('${{ github.workspace }}/.github/scripts/addBlockingRelationships.js')
-            await action({github, context})
+            await action({github, context, core})

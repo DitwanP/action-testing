@@ -2,19 +2,19 @@
 /** @param {import('github-script').AsyncFunctionArguments} AsyncFunctionArguments */
 module.exports = async ({ github, context, core }) => {
   const { repo, owner } = context.repo;
-  // const logParams = { title: "Add Blocking Relationships" };
+  const logParams = { title: "Add Blocking Relationships" };
 
   const payload = /** @type {import('@octokit/webhooks-types').IssuesEvent} */ (context.payload);
   const {issue: { body, id, number: issue_number }} = payload;
   const issueProps = {owner, repo, issue_number: issue_number};
 
   if (!payload.issue || !payload.issue.number) {
-    console.log("No issue was found in the payload.");
+    core.notice("No issue was found in the payload.");
     return;
   }
 
   if (!body) {
-    console.log("Could not determine the issue body");
+    core.notice("Could not determine the issue body.", logParams);
     return;
   }
   
@@ -24,7 +24,7 @@ module.exports = async ({ github, context, core }) => {
   const blockedIssueNumbers = new Set();
   
   if (!blockedIssuesLineMatch) {
-    console.log("No blocked issues line found in the issue description.");
+    core.notice(`No blocked issues line found in the issue description of issue #${issue_number}.`, logParams);
     return;
   }
 
@@ -42,7 +42,6 @@ module.exports = async ({ github, context, core }) => {
   async function addRelationshipsToBlockedIssues() {
     for (const blockedIssueNumber of blockedIssueNumbers) {
       try {
-        console.log(`Marking issue #${issue_number} as blocking issue #${blockedIssueNumber}...`);
         await github.request(
           "POST /repos/{owner}/{repo}/issues/{issue_number}/dependencies/blocked_by",
           {
@@ -51,6 +50,7 @@ module.exports = async ({ github, context, core }) => {
             issue_id: id,
           }
         );
+        core.notice(`Marked issue #${issue_number} as blocking issue #${blockedIssueNumber}...`, logParams);
       } catch (error) {
         console.error(error);
       }
@@ -69,7 +69,7 @@ module.exports = async ({ github, context, core }) => {
           body: newBody,
         }
       );
-      console.log("Removed blocked issues line from issue description.");
+      core.notice("Removed blocked issues line from issue description.", logParams);
     } catch (error) {
       console.error(error);
     }
@@ -88,5 +88,5 @@ module.exports = async ({ github, context, core }) => {
     await removeBlockedIssuesLineFromIssueDescription();
   });
 
-  console.log("Finished adding blocked relationships.");
+  core.notice("Finished adding blocked relationships.", logParams);
 };
