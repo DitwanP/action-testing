@@ -68,6 +68,7 @@ module.exports = async ({ github, context, core }) => {
           body: newBody,
         }
       );
+      console.log("Removed blocked issues line from issue description.");
     } catch (error) {
       console.error(error);
     }
