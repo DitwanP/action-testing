@@ -55,6 +55,8 @@ module.exports = async ({ github, context, core }) => {
         console.error(error);
       }
     }
+
+    await removeBlockedIssuesLineFromIssueDescription();
   }
 
   async function removeBlockedIssuesLineFromIssueDescription() {
@@ -85,7 +87,6 @@ module.exports = async ({ github, context, core }) => {
   }
 
   await addRelationshipsToBlockedIssues();
-  await removeBlockedIssuesLineFromIssueDescription();
 
   console.log("Finished adding blocked relationships.");
 };
