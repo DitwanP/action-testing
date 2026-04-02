@@ -79,6 +79,8 @@ module.exports = async ({ github, context, core }) => {
       } catch (error) {
         console.error(error);
       }
+    } else {
+      core.notice(`Issue #${blockedIssueNumber} is still blocked by open issues.`, logParams);
     }
   }
 };
