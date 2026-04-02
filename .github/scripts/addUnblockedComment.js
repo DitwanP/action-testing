@@ -5,6 +5,7 @@ module.exports = async ({ github, context }) => {
   const { repo, owner } = context.repo;
   const payload = /** @type {import('@octokit/webhooks-types').IssuesEvent} */ (context.payload);
   const { issue: { number: issue_number } } = payload
+  const issueProps = {owner, repo, issue_number: issue_number};
   // const logParams = { title: "Add unblocked comment" };
   
   let blockedIssueNumbers = new Set();
@@ -37,7 +38,6 @@ module.exports = async ({ github, context }) => {
   await getBlockedIssueNumbers();
 
   for (const blockedIssueNumber of blockedIssueNumbers) {
-    const issueProps = {owner, repo, issue_number: blockedIssueNumber};
     let blockingIssues = []
 
     try {
@@ -45,9 +45,9 @@ module.exports = async ({ github, context }) => {
         "GET /repos/{owner}/{repo}/issues/{issue_number}/dependencies/blocked_by",
         {
           ...issueProps,
+          issue_number: blockedIssueNumber,
         }
       );
-
       blockingIssues = response.data;
     } catch (error) {
       console.error(error);
@@ -60,6 +60,7 @@ module.exports = async ({ github, context }) => {
       try {
         await github.rest.issues.createComment({
           ...issueProps,
+          issue_number: blockedIssueNumber,
           body: `All blocking issues have been closed this issue is ready for reevaluation.\n\ncc @ditwanp`,
         });
         console.log(`Added comment to issue #${blockedIssueNumber}`);
@@ -70,11 +71,16 @@ module.exports = async ({ github, context }) => {
       try {
         await github.rest.issues.removeLabel({
           ...issueProps,
+          issue_number: blockedIssueNumber,
           name: "blocked",
         });
         console.log(`Removed blocked label from issue #${blockedIssueNumber}.`);
       } catch (error) {
-        console.error(error);
+        if (error && typeof error === 'object' && 'status' in error && error.status === 404) {
+          console.log(`Issue #${blockedIssueNumber} does not have a blocked label, skipping label removal.`);
+        } else {
+          console.error(error);
+        }
       }
     } else {
       console.log(`Issue #${blockedIssueNumber} is still blocked by open issues.`);
