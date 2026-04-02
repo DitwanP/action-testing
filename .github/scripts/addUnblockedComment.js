@@ -1,24 +1,18 @@
 // @ts-check
 
 /** @param {import('github-script').AsyncFunctionArguments} AsyncFunctionArguments */
-module.exports = async ({ github, context }) => {
+module.exports = async ({ github, context, core }) => {
   const { repo, owner } = context.repo;
-  const payload = context.payload;
+  const payload = /** @type {import('@octokit/webhooks-types').IssuesEvent} */ (context.payload);
+  const { issue: { body, number: issue_number } } = payload
+  const logParams = { title: "Add unblocked comment" };
+  
+  let blockedIssueNumbers = new Set();
 
-  if (!payload.issue || !payload.issue.number) {
-    console.log("No issue was found in the payload.");
+  if (!body) {
+    core.notice("Could not determine the issue body", logParams);
     return;
   }
-
-  if (payload.action !== "closed" && payload.issue.state !== "closed") {
-    console.log(
-      `Skipping because issue #${payload.issue.number} is not closed (action=${payload.action}).`
-    );
-    return;
-  }
-
-  const issueNumber = payload.issue.number;
-  const blockedIssueNumbers = new Set();
 
   async function getBlockedIssueNumbers() {
     try {
@@ -27,72 +21,69 @@ module.exports = async ({ github, context }) => {
         {
           owner,
           repo,
-          issue_number: issueNumber,
+          issue_number: issue_number,
         }
       );
 
-      const blockedIssues = response.data || [];
+      const blockedIssues = response.data;
 
-      for (const issue of blockedIssues) {
-        if (issue.number) {
-          blockedIssueNumbers.add(issue.number);
-        }
+      if (blockedIssues.length === 0) {
+        core.notice(
+          `Issue #${issue_number} has no blocked issue relationships.`,
+          logParams
+        );
+        return;
       }
+
+      blockedIssueNumbers = new Set(blockedIssues.map(issue => issue.number).filter(Boolean));
+      
     } catch (error) {
-      const message =
-        error && typeof error === "object" && "message" in error
-          ? error.message
-          : String(error);
-      console.log(
-        "Could not fetch blocking issue relationships using REST API:",
-        message
-      );
+      const message = error && typeof error === "object" && "message" in error ? error.message : String(error);
+      core.notice(`${message}`, logParams);
     }
   }
 
   await getBlockedIssueNumbers();
 
-  if (blockedIssueNumbers.size === 0) {
-    console.log(
-      `Issue #${issueNumber} appears to have no blocked issue relationships.`
-    );
-    return;
-  }
-
   for (const blockedIssueNumber of blockedIssueNumbers) {
-    const issueProps = {
-      owner,
-      repo,
-      issue_number: blockedIssueNumber,
-    };
+    const issueProps = {owner, repo, issue_number: blockedIssueNumber};
+    let blockingIssues
 
     try {
-      await github.rest.issues.createComment({
-        ...issueProps,
-        body: `Issue #${issueNumber} has been closed and is no longer blocking this issue.\n\ncc @ditwanp for re-evaluation.`,
-      });
-      console.log(`Commented on issue #${blockedIssueNumber}.`);
+      const response = await github.request(
+        "GET /repos/{owner}/{repo}/issues/{issue_number}/dependencies/blocked_by",
+        {
+          ...issueProps,
+        }
+      );
+
+      blockingIssues = response.data;
     } catch (error) {
-      if (error && typeof error === "object" && "status" in error && error.status === 404) {
-        console.log(`Issue #${blockedIssueNumber} was not found.`);
-      } else {
-        throw error;
-      }
+      core.notice(`${error}`, logParams);
+      continue;
     }
+    
+    const unblocked = blockingIssues.every(issue => issue.state === "closed");
 
-    try {
-      await github.rest.issues.removeLabel({
-        ...issueProps,
-        name: "blocked",
-      });
-      console.log(`Removed blocked label from issue #${blockedIssueNumber}.`);
-    } catch (error) {
-      if (error && typeof error === "object" && "status" in error && error.status === 404) {
-        console.log(
-          `The blocked label is not present on issue #${blockedIssueNumber}.`
-        );
-      } else {
-        throw error;
+    if (unblocked) {
+      try {
+        await github.rest.issues.createComment({
+          ...issueProps,
+          body: `All blocking issues have been closed this issue is ready for reevaluation.\n\ncc @ditwanp`,
+        });
+        core.notice(`Commented on issue #${blockedIssueNumber}.`, logParams);
+      } catch (error) {
+        core.notice(`${error}`, logParams);
+      }
+
+      try {
+        await github.rest.issues.removeLabel({
+          ...issueProps,
+          name: "blocked",
+        });
+        core.notice(`Removed blocked label from issue #${blockedIssueNumber}.`, logParams);
+      } catch (error) {
+        core.notice(`${error}`, logParams);
       }
     }
   }
