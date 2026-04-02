@@ -4,15 +4,10 @@
 module.exports = async ({ github, context, core }) => {
   const { repo, owner } = context.repo;
   const payload = /** @type {import('@octokit/webhooks-types').IssuesEvent} */ (context.payload);
-  const { issue: { body, number: issue_number } } = payload
+  const { issue: { number: issue_number } } = payload
   const logParams = { title: "Add unblocked comment" };
   
   let blockedIssueNumbers = new Set();
-
-  if (!body) {
-    core.notice("Could not determine the issue body", logParams);
-    return;
-  }
 
   async function getBlockedIssueNumbers() {
     try {
