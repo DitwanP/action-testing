@@ -55,8 +55,6 @@ module.exports = async ({ github, context, core }) => {
         console.error(error);
       }
     }
-
-    await removeBlockedIssuesLineFromIssueDescription();
   }
 
   async function removeBlockedIssuesLineFromIssueDescription() {
@@ -64,7 +62,6 @@ module.exports = async ({ github, context, core }) => {
     const newBody = body?.replace(blockedIssuesLineRegexForReplacement, "").trim();
 
     try {
-      console.log("Removing blocked issues line from issue description...");
       await github.request(
         "PATCH /repos/{owner}/{repo}/issues/{issue_number}",
         {
@@ -87,7 +84,9 @@ module.exports = async ({ github, context, core }) => {
     }
   }
 
-  await addRelationshipsToBlockedIssues();
+  await addRelationshipsToBlockedIssues().then(async () => {
+    await removeBlockedIssuesLineFromIssueDescription();
+  });
 
   console.log("Finished adding blocked relationships.");
 };
