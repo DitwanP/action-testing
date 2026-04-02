@@ -33,7 +33,7 @@ module.exports = async ({ github, context, core }) => {
       blockedIssueNumbers = new Set(blockedIssues.map(/** @param {{ number: Number }} issue */ (issue) => issue.number).filter(Boolean));
       
     } catch (error) {
-      core.notice(`${error}`, logParams);
+      console.error(error);
     }
   }
 
@@ -53,7 +53,7 @@ module.exports = async ({ github, context, core }) => {
 
       blockingIssues = response.data;
     } catch (error) {
-      core.notice(`${error}`, logParams);
+      console.error(error);
       continue;
     }
     
@@ -67,7 +67,7 @@ module.exports = async ({ github, context, core }) => {
         });
         core.notice(`Commented on issue #${blockedIssueNumber}.`, logParams);
       } catch (error) {
-        core.notice(`${error}`, logParams);
+        console.error(error);
       }
 
       try {
@@ -77,7 +77,7 @@ module.exports = async ({ github, context, core }) => {
         });
         core.notice(`Removed blocked label from issue #${blockedIssueNumber}.`, logParams);
       } catch (error) {
-        core.notice(`${error}`, logParams);
+        console.error(error);
       }
     }
   }

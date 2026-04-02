@@ -54,7 +54,7 @@ module.exports = async ({ github, context, core }) => {
         );
 
       } catch (error) {
-        core.error(`${error}`, logParams);
+        console.error(error);
       }
     }
   }
