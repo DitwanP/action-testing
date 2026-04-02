@@ -30,11 +30,10 @@ module.exports = async ({ github, context, core }) => {
         return;
       }
 
-      blockedIssueNumbers = new Set(blockedIssues.map(issue => issue.number).filter(Boolean));
+      blockedIssueNumbers = new Set(blockedIssues.map(/** @param {{ number: Number }} issue */ (issue) => issue.number).filter(Boolean));
       
     } catch (error) {
-      const message = error && typeof error === "object" && "message" in error ? error.message : String(error);
-      core.notice(`${message}`, logParams);
+      core.notice(`${error}`, logParams);
     }
   }
 
@@ -42,7 +41,7 @@ module.exports = async ({ github, context, core }) => {
 
   for (const blockedIssueNumber of blockedIssueNumbers) {
     const issueProps = {owner, repo, issue_number: blockedIssueNumber};
-    let blockingIssues
+    let blockingIssues = []
 
     try {
       const response = await github.request(
@@ -58,7 +57,7 @@ module.exports = async ({ github, context, core }) => {
       continue;
     }
     
-    const unblocked = blockingIssues.every(issue => issue.state === "closed");
+    const unblocked = blockingIssues.every(/** @param {{ state: string }} issue */ (issue) => issue.state === "closed");
 
     if (unblocked) {
       try {
