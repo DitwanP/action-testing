@@ -60,7 +60,8 @@ module.exports = async ({ github, context, core }) => {
   }
 
   async function removeBlockedIssuesLineFromIssueDescription() {
-    const newBody = body?.replace(blockedIssuesLineRegex, "").trim();
+    const blockedIssuesLineRegexForReplacement = /Blocked issues:\s*([^\n]+)\n?/i;
+    const newBody = body?.replace(blockedIssuesLineRegexForReplacement, "").trim();
 
     try {
       console.log("Removing blocked issues line from issue description...");
