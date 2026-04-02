@@ -2,7 +2,7 @@
 /** @param {import('github-script').AsyncFunctionArguments} AsyncFunctionArguments */
 module.exports = async ({ github, context, core }) => {
   const { repo, owner } = context.repo;
-  const logParams = { title: "Add Blocking Relationships" };
+  // const logParams = { title: "Add Blocking Relationships" };
 
   const payload = /** @type {import('@octokit/webhooks-types').IssuesEvent} */ (context.payload);
   const {
@@ -10,12 +10,12 @@ module.exports = async ({ github, context, core }) => {
   } = payload;
 
   if (!payload.issue || !payload.issue.number) {
-    core.notice("No issue was found in the payload.", logParams);
+    console.log("No issue was found in the payload.");
     return;
   }
 
   if (!body) {
-    core.notice("Could not determine the issue body", logParams);
+    console.log("Could not determine the issue body");
     return;
   }
   
@@ -61,5 +61,5 @@ module.exports = async ({ github, context, core }) => {
 
   await addRelationshipsToBlockedIssues();
 
-  core.notice("Finished adding blocked relationships.", logParams);
+  console.log("Finished adding blocked relationships.");
 };

@@ -1,11 +1,11 @@
 // @ts-check
 
 /** @param {import('github-script').AsyncFunctionArguments} AsyncFunctionArguments */
-module.exports = async ({ github, context, core }) => {
+module.exports = async ({ github, context }) => {
   const { repo, owner } = context.repo;
   const payload = /** @type {import('@octokit/webhooks-types').IssuesEvent} */ (context.payload);
   const { issue: { number: issue_number } } = payload
-  const logParams = { title: "Add unblocked comment" };
+  // const logParams = { title: "Add unblocked comment" };
   
   let blockedIssueNumbers = new Set();
 
@@ -23,10 +23,7 @@ module.exports = async ({ github, context, core }) => {
       const blockedIssues = response.data;
 
       if (blockedIssues.length === 0) {
-        core.notice(
-          `Issue #${issue_number} has no blocked issue relationships.`,
-          logParams
-        );
+        console.log(`Issue #${issue_number} has no blocked issue relationships.`);
         return;
       }
 
@@ -65,7 +62,7 @@ module.exports = async ({ github, context, core }) => {
           ...issueProps,
           body: `All blocking issues have been closed this issue is ready for reevaluation.\n\ncc @ditwanp`,
         });
-        core.notice(`Commented on issue #${blockedIssueNumber}.`, logParams);
+        console.log(`Added comment to issue #${blockedIssueNumber}`);
       } catch (error) {
         console.error(error);
       }
@@ -75,12 +72,12 @@ module.exports = async ({ github, context, core }) => {
           ...issueProps,
           name: "blocked",
         });
-        core.notice(`Removed blocked label from issue #${blockedIssueNumber}.`, logParams);
+        console.log(`Removed blocked label from issue #${blockedIssueNumber}.`);
       } catch (error) {
         console.error(error);
       }
     } else {
-      core.notice(`Issue #${blockedIssueNumber} is still blocked by open issues.`, logParams);
+      console.log(`Issue #${blockedIssueNumber} is still blocked by open issues.`);
     }
   }
 };
