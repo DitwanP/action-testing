@@ -20,9 +20,9 @@ module.exports = async ({ github, context, core }) => {
   
   const blockedIssuesLineRegex = /Blocked issues:\s*([^\n]+)/i;
   const issueRegex = /#(\d+)|https:\/\/github\.com\/[^\/]+\/[^\/]+\/issues\/(\d+)/g;
-  const blockedIssueNumbers = new Set();
-
   const blockedIssuesLineMatch = body.match(blockedIssuesLineRegex);
+  const blockedIssueNumbers = new Set();
+  
   if (!blockedIssuesLineMatch) {
     console.log("No blocked issues line found in the issue description.");
     return;
