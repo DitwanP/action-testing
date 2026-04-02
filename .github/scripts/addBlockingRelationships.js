@@ -24,6 +24,7 @@ module.exports = async ({ github, context, core }) => {
 
   const blockedIssuesLineMatch = body.match(blockedIssuesLineRegex);
   if (!blockedIssuesLineMatch) {
+    console.log("No blocked issues line found in the issue description.");
     return;
   }
 
