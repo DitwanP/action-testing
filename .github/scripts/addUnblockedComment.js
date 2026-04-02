@@ -1,12 +1,12 @@
 // @ts-check
 
 /** @param {import('github-script').AsyncFunctionArguments} AsyncFunctionArguments */
-module.exports = async ({ github, context }) => {
+module.exports = async ({ github, context, core }) => {
   const { repo, owner } = context.repo;
   const payload = /** @type {import('@octokit/webhooks-types').IssuesEvent} */ (context.payload);
   const { issue: { number: issue_number } } = payload
   const issueProps = {owner, repo, issue_number: issue_number};
-  // const logParams = { title: "Add unblocked comment" };
+  const logParams = { title: "Add unblocked comment" };
   
   let blockedIssueNumbers = new Set();
 
@@ -24,7 +24,7 @@ module.exports = async ({ github, context }) => {
       const blockedIssues = response.data;
 
       if (blockedIssues.length === 0) {
-        console.log(`Issue #${issue_number} has no blocked issue relationships.`);
+        core.notice(`Issue #${issue_number} has no blocked issue relationships.`, logParams);
         return;
       }
 
@@ -63,7 +63,7 @@ module.exports = async ({ github, context }) => {
           issue_number: blockedIssueNumber,
           body: `All blocking issues have been closed this issue is ready for reevaluation.\n\ncc @ditwanp`,
         });
-        console.log(`Added comment to issue #${blockedIssueNumber}`);
+        core.notice(`Added comment to issue #${blockedIssueNumber}`, logParams);
       } catch (error) {
         console.error(error);
       }
@@ -74,16 +74,16 @@ module.exports = async ({ github, context }) => {
           issue_number: blockedIssueNumber,
           name: "blocked",
         });
-        console.log(`Removed blocked label from issue #${blockedIssueNumber}.`);
+        core.notice(`Removed blocked label from issue #${blockedIssueNumber}.`, logParams);
       } catch (error) {
         if (error && typeof error === 'object' && 'status' in error && error.status === 404) {
-          console.log(`Issue #${blockedIssueNumber} does not have a blocked label, skipping label removal.`);
+          core.notice(`Issue #${blockedIssueNumber} does not have a blocked label, skipping label removal.`, logParams);
         } else {
           console.error(error);
         }
       }
     } else {
-      console.log(`Issue #${blockedIssueNumber} is still blocked by open issues.`);
+      core.notice(`Issue #${blockedIssueNumber} is still blocked by open issues.`, logParams);
     }
   }
 };
