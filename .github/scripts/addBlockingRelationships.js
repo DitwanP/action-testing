@@ -1,4 +1,9 @@
 // @ts-check
+
+// When an issue with "Blocked issues" line in the description is edited:
+// 1. Add blocking relationships to issues listed in the "Blocked issues" line of a given issue
+// 2. Remove the "Blocked issues" line from the description, and,
+// 1. Add comment to notify that all blocking issues have been added as relationships and removed from the description
 /** @param {import('github-script').AsyncFunctionArguments} AsyncFunctionArguments */
 module.exports = async ({ github, context, core }) => {
   const { repo, owner } = context.repo;
@@ -7,11 +12,6 @@ module.exports = async ({ github, context, core }) => {
   const payload = /** @type {import('@octokit/webhooks-types').IssuesEvent} */ (context.payload);
   const {issue: { body, id, number: issue_number }} = payload;
   const issueProps = {owner, repo, issue_number: issue_number};
-
-  if (!payload.issue || !payload.issue.number) {
-    core.notice("No issue was found in the payload.");
-    return;
-  }
 
   if (!body) {
     core.notice("Could not determine the issue body.", logParams);
