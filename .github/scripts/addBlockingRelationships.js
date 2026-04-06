@@ -19,7 +19,7 @@ module.exports = async ({ github, context, core }) => {
   }
   
   const blockedIssuesLineRegex = /Blocked issues:\s*([^\n]+)/i;
-  const issueRegex = /#(\d+)|https:\/\/github\.com\/[^\/]+\/[^\/]+\/issues\/(\d+)/g;
+  const issueRegex = /#(\d+)|https:\/\/github\.com\/[^/]+\/[^/]+\/issues\/(\d+)/g;
   const blockedIssuesLineMatch = body.match(blockedIssuesLineRegex);
   const blockedIssueNumbers = new Set();
   
@@ -52,7 +52,7 @@ module.exports = async ({ github, context, core }) => {
         );
         core.notice(`Marked issue #${issue_number} as blocking issue #${blockedIssueNumber}...`, logParams);
       } catch (error) {
-        console.error(error);
+        core.error(`${error}`);
       }
     }
   }
@@ -71,7 +71,7 @@ module.exports = async ({ github, context, core }) => {
       );
       core.notice("Removed blocked issues line from issue description.", logParams);
     } catch (error) {
-      console.error(error);
+      core.error(`${error}`);
     }
 
     try {
@@ -80,7 +80,7 @@ module.exports = async ({ github, context, core }) => {
         body: `All blocked issues from description have been added as relationships and removed from the description.\n\ncc @ditwanp`,
       });
     } catch (error) {
-      console.error(error);
+      core.error(`${error}`);
     }
   }
 

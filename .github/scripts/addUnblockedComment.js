@@ -13,12 +13,7 @@ module.exports = async ({ github, context, core }) => {
   async function getBlockedIssueNumbers() {
     try {
       const response = await github.request(
-        "GET /repos/{owner}/{repo}/issues/{issue_number}/dependencies/blocking",
-        {
-          owner,
-          repo,
-          issue_number: issue_number,
-        }
+        "GET /repos/{owner}/{repo}/issues/{issue_number}/dependencies/blocking", issueProps
       );
 
       const blockedIssues = response.data;
@@ -31,7 +26,7 @@ module.exports = async ({ github, context, core }) => {
       blockedIssueNumbers = new Set(blockedIssues.map(/** @param {{ number: Number }} issue */ (issue) => issue.number).filter(Boolean));
       
     } catch (error) {
-      console.error(error);
+      core.error(`${error}`);
     }
   }
 
@@ -50,7 +45,7 @@ module.exports = async ({ github, context, core }) => {
       );
       blockingIssues = response.data;
     } catch (error) {
-      console.error(error);
+      core.error(`${error}`);
       continue;
     }
     
@@ -65,7 +60,7 @@ module.exports = async ({ github, context, core }) => {
         });
         core.notice(`Added comment to issue #${blockedIssueNumber}`, logParams);
       } catch (error) {
-        console.error(error);
+        core.error(`${error}`);
       }
 
       try {
@@ -79,7 +74,7 @@ module.exports = async ({ github, context, core }) => {
         if (error && typeof error === 'object' && 'status' in error && error.status === 404) {
           core.notice(`Issue #${blockedIssueNumber} does not have a blocked label, skipping label removal.`, logParams);
         } else {
-          console.error(error);
+          core.error(`${error}`);
         }
       }
     } else {
