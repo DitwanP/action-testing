@@ -49,6 +49,11 @@ const resources = {
     admins: "calcite-design-system-admins",
     iconDesigners: "calcite-icon-designers",
   },
+  milestones: {
+    backlog: { name: "Backlog", number: 1 },
+    stalled: { name: "Stalled", number: 2 },
+    freezer: { name: "Freezer", number: 3 },
+  },
 };
 
 module.exports = resources;
