@@ -11,6 +11,7 @@
     "url": "git+https://github.com/DitwanP/action-testing.git"
   },
   "dependencies": {
+    "@esri/calcite-components": "^5.1.2",
     "@octokit/webhooks-types": "7.5.1",
     "@types/github-script": "github:actions/github-script",
     "change-case": "^5.4.4",
